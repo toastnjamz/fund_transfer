@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../static/css/style.css" type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Home</title>
+</head>
+<body>
+<div class="container">
+    <div id="navbar">
+        <ul>
+            <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/img/icon.png}"
+                alt="Company Icon"><a href="#"></a></li>
+            <li><a class="selected" href="#">Home</a></li>
+            <li><a style="color:grey" href="#">Transfer</a></li>
+            <li><a style="color:grey" href="#">Profile</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Login</a></li>
+        </ul>
+    </div>
+    <div id="breadcrumb">
+        <div id="pageLocationTitle">Home</div>
+    </div>
+    <div id="topContainer">
+        <img id="homepageImage" src="../static/images/homeimage.png" th:src="@{/img/homeimage.png}"
+             alt="Company Icon">
+    </div>
+    <div id="bottomContainer">
+        <div id="buttonContainer">
+            <div id="loginText">Have an account?</div>
+            <button id="loginButton">Login</button>
+            <div id="registerText">New to Pay My Buddy?</div>
+            <button id="registerButton">Register</button>
+        </div>
+    </div>
+    <div id="footer"></div>
+</div>
+</body>
+</html>
