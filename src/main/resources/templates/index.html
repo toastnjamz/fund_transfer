@@ -6,11 +6,11 @@
     <title>Home</title>
 </head>
 <body>
-<div class="container">
-    <div id="navbar">
+<div class="mainContainer">
+    <div class="navbar">
         <ul>
             <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/img/icon.png}"
-                alt="Company Icon"><a href="#"></a></li>
+                                      alt="Company Icon"><a href="#"></a></li>
             <li><a class="selected" href="#">Home</a></li>
             <li><a style="color:grey" href="#">Transfer</a></li>
             <li><a style="color:grey" href="#">Profile</a></li>
@@ -21,11 +21,11 @@
     <div id="breadcrumb">
         <div id="pageLocationTitle">Home</div>
     </div>
-    <div id="topContainer">
+    <div class="topContainer">
         <img id="homepageImage" src="../static/images/homeimage.png" th:src="@{/img/homeimage.png}"
              alt="Company Icon">
     </div>
-    <div id="bottomContainer">
+    <div class="bottomContainer">
         <div id="buttonContainer">
             <div id="loginText">Have an account?</div>
             <button id="loginButton">Login</button>
@@ -33,7 +33,7 @@
             <button id="registerButton">Register</button>
         </div>
     </div>
-    <div id="footer"></div>
+    <div class="footer"></div>
 </div>
 </body>
 </html>

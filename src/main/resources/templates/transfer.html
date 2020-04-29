@@ -1,10 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <link href="../static/css/style.css" type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
     <title>Transfer</title>
 </head>
 <body>
-
+<div class="mainContainer">
+    <div class="navbar">
+        <ul>
+            <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/img/icon.png}"
+                                      alt="Company Icon"><a href="#"></a></li>
+            <li><a href="#">Home</a></li>
+            <li><a class="selected" href="#">Transfer</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Login</a></li>
+        </ul>
+    </div>
+    <div id="breadcrumb">
+        <div id="pageLocationTitle">Home / <span style="color:grey">Transfer</span></div>
+    </div>
+    <div class="topContainer">
+        <div class="containerRow" id="containerSubRow">
+            <div class="sectionTitle">Send Money</div>
+            <div>
+                <button class=addConnectionButton onclick="" name="addConnectionButton" type="button"
+                        value="Add Connection">Add Connection</button>
+            </div>
+        </div>
+        <div class="containerRow" id="payConnectionContainer">
+            <form name="form" th:action="" method="post">
+                <div id="containerItems">
+                    <ul>
+                        <li><select id="connectionsSelector" th:name="email" name="email" th:remove="all-but-first"/>
+                            <option th:each=""
+                                th:text=""
+                                th:value="">
+                            </option>
+                            </select></li>
+                        <li><div class="amountAmountSelector">
+                            <input type="text" id="amount" th:name="amount" name="amount" placeholder="How much?"/>
+                            </div></li>
+                        <li><div class="descriptionInput">
+                            <input type="text" id="description" th:name="description" name="description" placeholder="What's it for?"/>
+                            </div></li>
+                        <li><button class="payButton" onclick="" name="payButton" type="submit"
+                             value="Pay">Pay</button></li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="bottomContainer">
+        <div class="containerRow" id="transactionsSubRow">
+            <div class="sectionTitle">My Transactions</div>
+        </div>
+        <div class="containerRow" id="transactionsTable">
+            <table style="width=100%">
+                <thead>
+                    <tr>
+                        <th>Connection</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody th:remove="all-but-first">
+                    <tr th:each="">
+                        <td th:tex="">Test1</td>
+                        <td th:text="">Test2</td>
+                        <td th:text="">Test3</td>
+                    </tr>
+                <tr>
+                    <td>TestA</td>
+                    <td>TestB</td>
+                    <td>TestC</td>
+                </tr>
+                <tr>
+                    <td>TestX</td>
+                    <td>TestY</td>
+                    <td>TestZ</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="containerRow" id="paginationElement">
+            <div class="pagination">
+                <a href="#">&laquo;</a>
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">&raquo;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer"></div>
+</div>
 </body>
 </html>
