@@ -10,12 +10,12 @@
     <div class="navbar">
         <ul>
             <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/img/icon.png}"
-                                      alt="Company Icon"><a href="#"></a></li>
-            <li><a class="selected" href="#">Home</a></li>
+                alt="Company Icon"><a href="/"></a></li>
+            <li><a class="selected" href="/">Home</a></li>
             <li><a style="color:grey" href="#">Transfer</a></li>
             <li><a style="color:grey" href="#">Profile</a></li>
             <li><a href="#">Contact</a></li>
-            <li><a href="#">Login</a></li>
+            <li><a href="/login">Login</a></li>
         </ul>
     </div>
     <div id="breadcrumb">
@@ -26,11 +26,9 @@
              alt="Company Icon">
     </div>
     <div class="bottomContainer">
-        <div id="buttonContainer">
-            <div id="loginText">Have an account?</div>
-            <button id="loginButton">Login</button>
-            <div id="registerText">New to Pay My Buddy?</div>
-            <button id="registerButton">Register</button>
+        <div class="login-register">
+            <p>Have an account? <a style="color:#0066ff" href="/login">Click here to login</a>.</p>
+            <p>New to Pay My Buddy? <a style="color:#2eb82e" href="#">Click here to create an account</a>.</p>
         </div>
     </div>
     <div class="footer"></div>
