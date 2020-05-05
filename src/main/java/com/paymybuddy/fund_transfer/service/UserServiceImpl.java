@@ -5,6 +5,7 @@ import com.paymybuddy.fund_transfer.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,6 +23,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserById(int id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user;
+        }
         return null;
     }
 
@@ -37,7 +43,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-        userRepository.save(user);
+        User updatedUser = this.findUserById(user.getId());
+        updatedUser.setRoleType(user.getRoleType());
+        //TODO: check if email is already taken first
+        //updatedUser.setEmail(user.getEmail());
+        updatedUser.setPassword(user.getPassword());
+        updatedUser.setDisplayName(user.getDisplayName());
     }
 
     @Override

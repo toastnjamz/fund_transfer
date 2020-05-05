@@ -1,5 +1,6 @@
 package com.paymybuddy.fund_transfer.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -22,6 +23,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_user_role_type_id")
+    @JsonBackReference
     private RoleType roleType;
 
     @NotBlank
@@ -53,10 +55,11 @@ public class User {
 
     public User() {}
 
-    public User(RoleType roleType, String email, String password) {
+    public User(RoleType roleType, @NotBlank String email, @NotBlank String password, String displayName) {
         this.roleType = roleType;
         this.email = email;
         this.password = password;
+        this.displayName = displayName;
     }
 
     public int getId() {
@@ -113,6 +116,16 @@ public class User {
 
     public void setUpdatedOn(Date updatedOn) {
         this.updatedOn = updatedOn;
+    }
+
+    @PrePersist
+    public void setCreatedOn() {
+        this.createdOn = new Date();
+    }
+
+    @PreUpdate
+    public void setUpdatedOn() {
+        this.updatedOn = new Date();
     }
 
     @Override

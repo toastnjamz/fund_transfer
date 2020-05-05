@@ -103,6 +103,12 @@ li{
     cursor: pointer;
 }
 
+.error {
+    color: red;
+    text-align: center;
+    margin: 10px auto -10px auto;
+}
+
 #registerText{
     font-size: 20px;
     padding: 10px 10px 5px;
@@ -423,4 +429,14 @@ input[type=submit] {
 
 input[type=submit]:active {
     background: #cde5ef;
+}
+
+.registerTitle {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: -10px;
+}
+
+#submitRegistration {
+    background-color: #2eb82e;
 }

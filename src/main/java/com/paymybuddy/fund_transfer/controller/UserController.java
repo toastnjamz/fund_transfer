@@ -1,7 +1,8 @@
 package com.paymybuddy.fund_transfer.controller;
 
+import com.paymybuddy.fund_transfer.domain.RoleType;
 import com.paymybuddy.fund_transfer.domain.User;
-import com.paymybuddy.fund_transfer.repository.UserRepository;
+import com.paymybuddy.fund_transfer.service.RoleTypeService;
 import com.paymybuddy.fund_transfer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,47 +15,37 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
-    //TODO: delete
-    private UserRepository userRepository;
+    private RoleTypeService roleTypeService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleTypeService roleTypeService) {
         this.userService = userService;
+        this.roleTypeService = roleTypeService;
     }
-g
+
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.findAllUsers();
     }
 
-    @GetMapping("user/{id}")
+    @GetMapping("/getUserById")
     public User getUserById(@RequestParam int id) {
         return userService.findUserById(id);
     }
 
-    //TODO: delete test method
-    @PostMapping("/user")
-    public @ResponseBody String createUser(@RequestParam String email, @RequestParam String password,
-                                           @RequestParam String displayName, HttpServletResponse response) {
-
-        User testUser = new User();
-        testUser.setEmail(email);
-        testUser.setPassword(password);
-        testUser.setDisplayName(displayName);
-
-        userRepository.save(testUser);
-        response.setStatus(201);
-        return "User Created";
+    @GetMapping("/getUserByEmail")
+    public User getUserByEmail(@RequestParam String email) {
+        return userService.findUserByEmail(email);
     }
 
-//    @PostMapping("/user")
-//    public User createUser(@Valid @RequestBody User user, HttpServletResponse response) {
-//        response.setStatus(201);
-//        return userService.createUser(user);
-//    }
+    @PostMapping("/user")
+    public User createUser(@RequestBody User user, HttpServletResponse response) {
+        response.setStatus(201);
+        return userService.createUser(user);
+    }
 
     @PutMapping("/user")
-    public void updateUser(@Valid @RequestBody User user, HttpServletResponse response) {
+    public void updateUser(@RequestBody User user, HttpServletResponse response) {
         userService.updateUser(user);
         response.setStatus(200);
     }
@@ -62,6 +53,42 @@ g
     @DeleteMapping("/user")
     public void deleteUser(@RequestParam int id, HttpServletResponse response) {
         userService.deleteUser(id);
+        response.setStatus(200);
+    }
+
+
+    // Role Type Methods
+
+    @GetMapping("/roleTypes")
+    public List<RoleType> getAllRoleTypes() {
+        return roleTypeService.findAllRoleTypes();
+    }
+
+    @GetMapping("/getRoleTypeById")
+    public RoleType getRoleTypeById(@RequestParam int id) {
+        return roleTypeService.findRoleTypeById(id);
+    }
+
+    @GetMapping("/getRoleTypeByRoleType")
+    public RoleType getRoleTypeByRoleType(@RequestParam String roleType) {
+        return roleTypeService.findRoleTypeByRoleType(roleType);
+    }
+
+    @PostMapping("/roleType")
+    public RoleType createRoleType(@RequestBody RoleType roleType, HttpServletResponse response) {
+        response.setStatus(201);
+        return roleTypeService.createRoleType(roleType);
+    }
+
+    @PutMapping("/roleType")
+    public void updateRoleType(@RequestBody RoleType roleType, HttpServletResponse response) {
+        roleTypeService.updateRoleType(roleType);
+        response.setStatus(200);
+    }
+
+    @DeleteMapping("/roleType")
+    public void deleteRoleType(@RequestParam int id, HttpServletResponse response) {
+        roleTypeService.deleteRoleType(id);
         response.setStatus(200);
     }
 }

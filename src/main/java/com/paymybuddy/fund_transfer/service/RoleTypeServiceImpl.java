@@ -5,6 +5,7 @@ import com.paymybuddy.fund_transfer.repository.RoleTypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoleTypeServiceImpl implements RoleTypeService {
@@ -22,6 +23,11 @@ public class RoleTypeServiceImpl implements RoleTypeService {
 
     @Override
     public RoleType findRoleTypeById(int id) {
+        Optional<RoleType> roleTypeOptional = roleTypeRepository.findById(id);
+        if (roleTypeOptional.isPresent()) {
+            RoleType roleType = roleTypeOptional.get();
+            return roleType;
+        }
         return null;
     }
 
@@ -37,7 +43,8 @@ public class RoleTypeServiceImpl implements RoleTypeService {
 
     @Override
     public void updateRoleType(RoleType roleType) {
-        roleTypeRepository.save(roleType);
+        RoleType updatedRoleType = this.findRoleTypeById(roleType.getId());
+        updatedRoleType.setRoleType(roleType.getRoleType());
     }
 
     @Override

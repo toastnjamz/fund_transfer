@@ -10,9 +10,9 @@
     <div class="navbar"></div>
     <div class="topContainer">
         <div class="login">
-            <img id="loginIcon" src="../static/images/icon.png" th:src="@{/img/icon.png}"
+            <img id="loginIcon" src="../static/images/icon.png" th:src="@{/images/icon.png}"
                  alt="Company Icon">
-            <form name="form" method="post" th:action="">
+            <form name="form" method="post" th:action="@{/login}">
                 <p><input type="text" name="login" value="" placeholder="Email"></p>
                 <p><input type="password" name="password" value="" placeholder="Password"></p>
                 <p class="remember_me">
@@ -21,26 +21,26 @@
                         Remember Me
                     </label>
                 </p>
-                <p class="submit"><input type="submit" name="commit" value="Login"></p>
-<!--                <div th:if="${param.error}">
-                    <div class="alert alert-danger">
-                        Invalid username or password
+                <p class="submit"><input type="submit" value="Login"></p>
+                <div th:if="${param.error}">
+                    <div class="error">
+                        Incorrect email or password
                     </div>
                 </div>
-                <div th:if="${param.logout}">
-                    <div class="alert alert-info">
-                        You have been logged out
-                    </div>
-                </div>-->
+<!--                <div th:if="${param.logout}">-->
+<!--                    <div class="error">-->
+<!--                        You have been logged out-->
+<!--                    </div>-->
+<!--                </div>-->
             </form>
         </div>
     </div>
     <div class="bottomContainer">
         <div class="login-register">
-            <p>New to Pay My Buddy? <a href="#">Click here to create an account</a>.</p>
+            <p>New to Pay My Buddy? <a href="/register">Click here to create an account</a>.</p>
         </div>
         <div class="login-returnHome">
-            <p>Return to the main page: <a style="color:#b3b3b3" href="#">Home</a>.</p>
+            <p>Return to the main page: <a style="color:#b3b3b3" href="/">Home</a>.</p>
         </div>
     </div>
     <div class="footer"></div>
