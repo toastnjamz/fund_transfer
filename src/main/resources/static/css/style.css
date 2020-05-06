@@ -106,7 +106,7 @@ li{
 .error {
     color: red;
     text-align: center;
-    margin: 10px auto -10px auto;
+    margin: 10px auto;
 }
 
 #registerText{
@@ -437,6 +437,6 @@ input[type=submit]:active {
     margin-top: -10px;
 }
 
-#submitRegistration {
-    background-color: #2eb82e;
+.contactText {
+    text-align: center
 }

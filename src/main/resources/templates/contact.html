@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+    <title>Contact</title>
+</head>
+<body>
+<div class="mainContainer">
+    <div class="navbar">
+        <ul>
+            <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
+                                      alt="Company Icon"><a href="/"></a></li>
+            <li><a href="/">Home</a></li>
+            <li><a style="color:grey" href="#">Transfer</a></li>
+            <li><a style="color:grey" href="#">Profile</a></li>
+            <li><a class="selected" href="#">Contact</a></li>
+            <li><a href="/login">Login</a></li>
+        </ul>
+    </div>
+    <div id="breadcrumb">
+        <div id="pageLocationTitle">Home / <span style="color:grey">Contact</span></div>
+    </div>
+    <div class="topContainer"></div>
+    <div class="bottomContainer">
+        <div class="contactText">
+            <h1>Get In Touch</h1>
+            <h2>Address</h2>
+            <p>123 Test Street, STE 789</p>
+            <p>Test City, STATE, 12345</p>
+            <h2>Phone</h2>
+            <p>1-800-555-5555</p>
+            <h2>General Support</h2>
+            <p>support@PayMyBuddy.com</p>
+        </div>
+    </div>
+    <div class="footer"></div>
+</div>
+</body>
+</html>

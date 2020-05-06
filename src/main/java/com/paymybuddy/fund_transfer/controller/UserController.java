@@ -5,7 +5,10 @@ import com.paymybuddy.fund_transfer.domain.User;
 import com.paymybuddy.fund_transfer.service.RoleTypeService;
 import com.paymybuddy.fund_transfer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -22,6 +25,21 @@ public class UserController {
         this.userService = userService;
         this.roleTypeService = roleTypeService;
     }
+
+    @GetMapping("/register")
+    public ModelAndView register(@ModelAttribute("user") User user) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject(user);
+        modelAndView.setViewName("register");
+        return modelAndView;
+    }
+
+    @PostMapping("/register")
+    public ModelAndView submitRegistration(@Valid @ModelAttribute("user") User user, BindingResult result) {
+        //TODO
+        return null;
+    }
+
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
@@ -56,9 +74,7 @@ public class UserController {
         response.setStatus(200);
     }
 
-
     // Role Type Methods
-
     @GetMapping("/roleTypes")
     public List<RoleType> getAllRoleTypes() {
         return roleTypeService.findAllRoleTypes();
