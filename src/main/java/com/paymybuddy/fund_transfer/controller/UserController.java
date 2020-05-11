@@ -34,10 +34,26 @@ public class UserController {
         return modelAndView;
     }
 
+    //TODO: Setup to validate input and create new user
     @PostMapping("/register")
-    public ModelAndView submitRegistration(@Valid @ModelAttribute("user") User user, BindingResult result) {
-        //TODO
-        return null;
+    public ModelAndView createNewUser(@Valid @ModelAttribute("user") User user, BindingResult result) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        User userExists = userService.findUserByEmail(user.getEmail());
+        if (userExists != null) {
+            result.reject("error-registration");
+        }
+
+        if (result.hasErrors()) {
+            modelAndView.setViewName("/register");
+        }
+        else {
+            userService.createUserByRegistration(user.getEmail(), user.getPassword(), user.getDisplayName());
+            modelAndView.addObject("user", new User());
+            modelAndView.setViewName("/login");
+
+        }
+        return modelAndView;
     }
 
 

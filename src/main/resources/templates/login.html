@@ -14,10 +14,11 @@
                  alt="Company Icon">
             <form name="form" method="post" th:action="@{/login}">
                 <div th:if="${param.error}">
-                    <div class="error">
-                        Incorrect email or password
-                    </div>
+                    <div class="text-danger">Invalid username or password</div>
                 </div>
+<!--                <div th:if="${#fields.errors('all')}" class="text-danger">Incorrect email or password.</div>-->
+<!--                <span class="text-danger" th:errors="*{email}"></span>-->
+<!--                <span class="text-danger" th:errors="*{password}"></span>-->
                 <p><input type="text" name="login" placeholder="Email"></p>
                 <p><input type="password" name="password" placeholder="Password"></p>
                 <p class="remember_me">

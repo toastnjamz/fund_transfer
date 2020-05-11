@@ -1,6 +1,7 @@
 package com.paymybuddy.fund_transfer.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -8,7 +9,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
 
@@ -26,13 +29,16 @@ public class User {
     @JsonBackReference
     private RoleType roleType;
 
-    @NotBlank
+    @NotEmpty(message="Enter a valid email address.")
+    @Email(message="Email must be in a valid format.")
     private String email;
 
-    @NotBlank
+    @NotEmpty(message="Enter a valid password.")
+    @Size(min=5, max=50, message="Passwords need to be between 5-50 characters.")
     private String password;
 
     @Column(name = "display_name")
+    @NotEmpty(message="Enter a display name.")
     private String displayName;
 
     @Column(name = "created_on", nullable = false, updatable = false)
@@ -53,10 +59,21 @@ public class User {
 //    @LastModifiedBy
 //    private User updatedBy;
 
+    @Type(type = "numeric_boolean")
+    private boolean isActive;
+
     public User() {}
 
-    public User(RoleType roleType, @NotBlank String email, @NotBlank String password, String displayName) {
+    public User(RoleType roleType, @NotEmpty String email, @NotEmpty String password, String displayName) {
         this.roleType = roleType;
+        this.email = email;
+        this.password = password;
+        this.displayName = displayName;
+    }
+
+    //TODO: Remove test method
+    public User(@NotEmpty String email, @NotEmpty String password, String displayName) {
+//        this.roleType = new RoleType(2, "Regular");
         this.email = email;
         this.password = password;
         this.displayName = displayName;
@@ -116,6 +133,14 @@ public class User {
 
     public void setUpdatedOn(Date updatedOn) {
         this.updatedOn = updatedOn;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        isActive = isActive;
     }
 
     @PrePersist

@@ -20,7 +20,6 @@ body {
     float: left;
     max-width:100%;
     max-height:auto;
-    cursor: pointer;
 }
 
 a{
@@ -101,12 +100,6 @@ li{
     font-size: 20px;
     margin: 4px 6px 8px;
     cursor: pointer;
-}
-
-.error {
-    color: red;
-    text-align: center;
-    margin: 10px auto;
 }
 
 #registerText{
@@ -439,4 +432,10 @@ input[type=submit]:active {
 
 .contactText {
     text-align: center
+}
+
+.text-danger {
+    color: red;
+    text-align: center;
+    margin: auto;
 }

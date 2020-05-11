@@ -12,9 +12,12 @@
         <div class="login">
             <div class="registerTitle"><h2>Create an Account</h2></div>
             <form name="form" method="post" th:action="@{/register}" th:object="${user}">
+                <span class="text-danger" th:errors="*{email}"></span>
                 <p><input type="text" name="login" th:field="*{email}" placeholder="Email"></p>
+                <span class="text-danger" th:errors="*{password}"></span>
                 <p><input type="password" name="password" th:field="*{password}" placeholder="Password"></p>
-                <p><input type="text" name="display-name" th:field="*{displayName}" placeholder="Display Name"></p>
+                <span class="text-danger" th:errors="*{displayName}"></span>
+                <p><input type="text" name="displayName" th:field="*{displayName}" placeholder="Display Name"></p>
                 <p class="submit"><input type="submit" value="Submit" style="background-color:#2eb82e"></p>
             </form>
         </div>
