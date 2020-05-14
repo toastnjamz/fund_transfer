@@ -44,31 +44,44 @@ public class UserServiceImpl implements UserService {
         return userRepository.findUserByEmail(email);
     }
 
+    //TODO: Remove if not using or add validation
     @Override
     public User createUser(User user) {
         return userRepository.save(user);
     }
 
-    //TODO: Remove test method
+    //TODO: Remove or update test method
+//    @Override
+//    public User createUserByRegistration(String userEmail, String userPassword, String userDisplayName) {
+//        User user = new User();
+//        user.setEmail(userEmail);
+//        user.setPassword(bCryptPasswordEncoder.encode(userPassword));
+//        user.setDisplayName(userDisplayName);
+//        RoleType role = roleTypeService.findRoleTypeByRoleType("Regular");
+//        user.setRoleType(role);
+//        user.setIsActive(true);
+//        return userRepository.save(user);
+//    }
+
+    //TODO: Remove?
     @Override
-    public User createUserByRegistration(String userEmail, String userPassword, String userDisplayName) {
-        User user = new User();
-        user.setEmail(userEmail);
-        user.setPassword(bCryptPasswordEncoder.encode(userPassword));
-        user.setDisplayName(userDisplayName);
-        //TODO: Remove test
-        RoleType role = roleTypeService.findRoleTypeByRoleType("User");
-        user.setRoleType(role);
-        user.setIsActive(true);
-        return userRepository.save(user);
+    public User createUserByRegistration(User user) {
+        User registeredUser = new User();
+        registeredUser.setEmail(user.getEmail());
+        registeredUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        registeredUser.setDisplayName(user.getDisplayName());
+        registeredUser.setRoleType(roleTypeService.findRoleTypeByRoleType("Regular"));
+        registeredUser.setIsActive(true);
+        return userRepository.save(registeredUser);
     }
 
     @Override
     public void updateUser(User user) {
-        User updatedUser = this.findUserById(user.getId());
+        User updatedUser = findUserById(user.getId());
         updatedUser.setRoleType(user.getRoleType());
         //TODO: check if email is already taken first
         //updatedUser.setEmail(user.getEmail());
+        //TODO: use passwordEncoder?
         updatedUser.setPassword(user.getPassword());
         updatedUser.setDisplayName(user.getDisplayName());
     }

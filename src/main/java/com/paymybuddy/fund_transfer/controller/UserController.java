@@ -11,10 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@Transactional
 public class UserController {
 
     private UserService userService;
@@ -36,7 +38,7 @@ public class UserController {
 
     //TODO: Setup to validate input and create new user
     @PostMapping("/register")
-    public ModelAndView createNewUser(@Valid @ModelAttribute("user") User user, BindingResult result) {
+    public ModelAndView registerNewUser(@Valid @ModelAttribute("user") User user, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView();
 
         User userExists = userService.findUserByEmail(user.getEmail());
@@ -48,8 +50,9 @@ public class UserController {
             modelAndView.setViewName("/register");
         }
         else {
-            userService.createUserByRegistration(user.getEmail(), user.getPassword(), user.getDisplayName());
-            modelAndView.addObject("user", new User());
+//            userService.createUserByRegistration(user.getEmail(), user.getPassword(), user.getDisplayName());
+            userService.createUserByRegistration(user);
+//            modelAndView.addObject("user", new User());
             modelAndView.setViewName("/login");
 
         }

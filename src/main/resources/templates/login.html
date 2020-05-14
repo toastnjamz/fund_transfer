@@ -12,14 +12,14 @@
         <div class="login">
             <img id="loginIcon" src="../static/images/icon.png" th:src="@{/images/icon.png}"
                  alt="Company Icon">
-            <form name="form" method="post" th:action="@{/login}">
+            <form name="form" method="post" th:action="@{/perform_login}">
                 <div th:if="${param.error}">
-                    <div class="text-danger">Invalid username or password</div>
+                    <div class="text-danger">Invalid username or password.</div>
                 </div>
-<!--                <div th:if="${#fields.errors('all')}" class="text-danger">Incorrect email or password.</div>-->
-<!--                <span class="text-danger" th:errors="*{email}"></span>-->
-<!--                <span class="text-danger" th:errors="*{password}"></span>-->
-                <p><input type="text" name="login" placeholder="Email"></p>
+                <div th:if="${param.logout}">
+                    <div class="text-danger">You have been logged out.</div>
+                </div>
+                <p><input type="text" name="email" placeholder="Email"></p>
                 <p><input type="password" name="password" placeholder="Password"></p>
                 <p class="remember_me">
                     <label>
@@ -35,9 +35,9 @@
         <div class="login-register">
             <p>New to Pay My Buddy? <a href="/register">Click here to create an account</a>.</p>
         </div>
-        <div class="login-returnHome">
-            <p>Return to the main page: <a style="color:#b3b3b3" href="/">Home</a>.</p>
-        </div>
+<!--        <div class="login-returnHome">-->
+<!--            <p>Return to the main page: <a style="color:#b3b3b3" href="/home">Home</a>.</p>-->
+<!--        </div>-->
     </div>
     <div class="footer"></div>
 </div>

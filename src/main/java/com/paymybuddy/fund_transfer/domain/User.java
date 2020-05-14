@@ -24,17 +24,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "fk_user_role_type_id")
+//    @JsonBackReference
+//    private RoleType roleType;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_user_role_type_id")
-    @JsonBackReference
     private RoleType roleType;
 
-    @NotEmpty(message="Enter a valid email address.")
+    @NotEmpty(message="Please provide an email.")
     @Email(message="Email must be in a valid format.")
     private String email;
 
     @NotEmpty(message="Enter a valid password.")
-    @Size(min=5, max=50, message="Passwords need to be between 5-50 characters.")
+    @Size(min=5, max=60, message="Passwords need to be between 5-60 characters.")
     private String password;
 
     @Column(name = "display_name")
@@ -146,6 +150,7 @@ public class User {
     @PrePersist
     public void setCreatedOn() {
         this.createdOn = new Date();
+        this.isActive = true;
     }
 
     @PreUpdate

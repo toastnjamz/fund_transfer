@@ -64,6 +64,10 @@ li{
     background-color: #white;
 }
 
+.welcomeText {
+    text-align: center;
+}
+
 #homepageImage{
     display: block;
     margin-left: auto;

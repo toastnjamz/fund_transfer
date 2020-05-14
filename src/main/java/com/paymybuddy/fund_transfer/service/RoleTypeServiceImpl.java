@@ -2,6 +2,7 @@ package com.paymybuddy.fund_transfer.service;
 
 import com.paymybuddy.fund_transfer.domain.RoleType;
 import com.paymybuddy.fund_transfer.repository.RoleTypeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public class RoleTypeServiceImpl implements RoleTypeService {
 
     private RoleTypeRepository roleTypeRepository;
 
+    @Autowired
     public RoleTypeServiceImpl(RoleTypeRepository roleTypeRepository) {
         this.roleTypeRepository = roleTypeRepository;
     }
@@ -43,7 +45,7 @@ public class RoleTypeServiceImpl implements RoleTypeService {
 
     @Override
     public void updateRoleType(RoleType roleType) {
-        RoleType updatedRoleType = this.findRoleTypeById(roleType.getId());
+        RoleType updatedRoleType = findRoleTypeById(roleType.getId());
         updatedRoleType.setRoleType(roleType.getRoleType());
     }
 

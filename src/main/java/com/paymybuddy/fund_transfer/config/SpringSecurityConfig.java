@@ -5,20 +5,15 @@ import com.paymybuddy.fund_transfer.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@ComponentScan(basePackages = { "com.paymybuddy.fund_transfer" })
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -26,15 +21,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    @Qualifier("myUserDetailsService")
-    private UserDetailsService userDetailsService;
+//    @Qualifier("myUserDetailsService")
+    private MyUserDetailsService userDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(bCryptPasswordEncoder);
-//                .passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -42,21 +36,26 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/perform-login").permitAll()
+                .antMatchers("/login**").permitAll()
+                .antMatchers("/perform_login").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/contact").permitAll()
-                .antMatchers("/user").hasRole("User")
-                .antMatchers("/admin").hasAuthority("Admin")
-                .anyRequest().authenticated()
+                .antMatchers("/admin**").hasRole("Admin")
+                .antMatchers("/user**").hasAnyRole("Admin", "Regular")
+                .and().csrf().disable()
+                .httpBasic()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .loginProcessingUrl("/perform-login")
+                .loginProcessingUrl("/perform_login")
                 .usernameParameter("email")
                 .passwordParameter("password")
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/login?error=true")
                 .and()
-                .logout();
+                .logout()
+                .logoutUrl("/perform_logout")
+                .logoutSuccessUrl("/login");
     }
 
     @Override

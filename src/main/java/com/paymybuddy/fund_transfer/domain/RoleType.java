@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "role_type", catalog = "fund_transfer")
+@Table(name = "role_type")
 @EntityListeners(AuditingEntityListener.class)
 public class RoleType {
 
@@ -16,17 +16,18 @@ public class RoleType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //@Column(name = "role_type")
     private String roleType;
 
-    @OneToMany(mappedBy = "roleType")
-    @JsonManagedReference
-    private List<User> usersList;
+//    @OneToMany(mappedBy = "roleType")
+//    @JsonManagedReference
+//    private List<User> usersList;
+
+    @OneToOne(mappedBy = "roleType", cascade = CascadeType.ALL)
+    private User user;
 
     public RoleType() { }
 
-    public RoleType(int id, String roleType) {
-        this.id = id;
+    public RoleType(String roleType) {
         this.roleType = roleType;
     }
 
@@ -46,12 +47,20 @@ public class RoleType {
         this.roleType = roleType;
     }
 
-    public List<User> getUsersList() {
-        return usersList;
+//    public List<User> getUsersList() {
+//        return usersList;
+//    }
+//
+//    public void setUsersList(List<User> usersList) {
+//        this.usersList = usersList;
+//    }
+
+    public User getUser() {
+        return user;
     }
 
-    public void setUsersList(List<User> usersList) {
-        this.usersList = usersList;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

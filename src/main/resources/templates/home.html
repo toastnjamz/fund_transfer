@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
@@ -9,29 +10,31 @@
 <div class="mainContainer">
     <div class="navbar">
         <ul>
-            <a href="/">
-                <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
-                    alt="Company Icon"></li></a>
-            <li><a class="selected" href="/">Home</a></li>
-            <li><a style="color:grey" href="#">Transfer</a></li>
-            <li><a style="color:grey" href="#">Profile</a></li>
+            <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
+                    alt="Company Icon"></li>
+            <li><a class="selected" href="/home">Home</a></li>
+            <li><a href="/transfer">Transfer</a></li>
+            <li><a href="/profile">Profile</a></li>
             <li><a href="/contact">Contact</a></li>
-            <li><a href="/login">Login</a></li>
+            <li><a href="/logout" th:action="@{/perform_logout}">Logout</a></li>
         </ul>
     </div>
     <div id="breadcrumb">
         <div id="pageLocationTitle">Home</div>
     </div>
     <div class="topContainer">
+        <div class="welcomeText">
+            <h3>Welcome, <span th:text="${#authentication.name}"/>!</h3>
+        </div>
         <img id="homepageImage" src="../static/images/homeimage.png" th:src="@{/images/homeimage.png}"
              alt="Company Logo">
     </div>
-    <div class="bottomContainer">
-        <div class="login-register">
-            <p>Have an account? <a style="color:#0066ff" href="/login">Click here to login</a>.</p>
-            <p>New to Pay My Buddy? <a style="color:#2eb82e" href="/register">Click here to create an account</a>.</p>
-        </div>
-    </div>
+<!--    <div class="bottomContainer">-->
+<!--        <div class="login-register">-->
+<!--            <p>Have an account? <a style="color:#0066ff" href="/login">Click here to login</a>.</p>-->
+<!--            <p>New to Pay My Buddy? <a style="color:#2eb82e" href="/register">Click here to create an account</a>.</p>-->
+<!--        </div>-->
+<!--    </div>-->
     <div class="footer"></div>
 </div>
 </body>

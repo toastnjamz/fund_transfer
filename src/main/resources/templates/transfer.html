@@ -9,14 +9,13 @@
 <div class="mainContainer">
     <div class="navbar">
         <ul>
-            <a href="/">
-                <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
-                                          alt="Company Icon"></li></a>
-            <li><a href="/">Home</a></li>
+            <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
+                                      alt="Company Icon"></li></a>
+            <li><a href="/home">Home</a></li>
             <li><a class="selected" href="#">Transfer</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/logout" th:action="@{/perform_logout}">Logout</a></li>
         </ul>
     </div>
     <div id="breadcrumb">

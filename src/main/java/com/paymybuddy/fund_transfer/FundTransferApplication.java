@@ -14,5 +14,4 @@ public class FundTransferApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FundTransferApplication.class, args);
 	}
-
 }
