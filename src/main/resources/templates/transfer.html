@@ -25,19 +25,22 @@
         <div class="containerRow" id="containerSubRow">
             <div class="sectionTitle">Send Money</div>
             <div>
-                <button class=addConnectionButton onclick="#" name="addConnectionButton" type="button"
+                <button class=addConnectionButton onclick="location.href='/transfer'" name="addConnectionButton" type="button"
                         value="Add Connection">Add Connection</button>
             </div>
         </div>
         <div class="containerRow" id="payConnectionContainer">
-            <form name="form" th:action="" method="post">
+            <form name="form" th:action="@{/transfer}" method="post">
                 <div id="containerItems">
                     <ul>
                         <li><select id="connectionsSelector" th:name="email" name="email" th:remove="all-but-first"/>
-                            <option th:each=""
-                                th:text=""
-                                th:value="">
-                            </option>
+<!--                            <option th:each=""-->
+<!--                                th:text=""-->
+<!--                                th:value="">-->
+<!--                            </option>-->
+                            <option>test1@email.com</option>
+                            <option>test2@email.com</option>
+                            <option>test3@email.com</option>
                             </select></li>
                         <li><div class="amountAmountSelector">
                             <input type="text" id="amount" th:name="amount" name="amount" placeholder="How much?"/>
@@ -45,7 +48,7 @@
                         <li><div class="descriptionInput">
                             <input type="text" id="description" th:name="description" name="description" placeholder="What's it for?"/>
                             </div></li>
-                        <li><button class="payButton" onclick="" name="payButton" type="submit"
+                        <li><button class="payButton" onclick="location.href='/transfer'" name="payButton" type="submit"
                              value="Pay">Pay</button></li>
                     </ul>
                 </div>
@@ -66,11 +69,11 @@
                     </tr>
                 </thead>
                 <tbody th:remove="all-but-first">
-                    <tr th:each="">
-                        <td th:tex="">Test1</td>
-                        <td th:text="">Test2</td>
-                        <td th:text="">Test3</td>
-                    </tr>
+<!--                    <tr th:each="">-->
+<!--                        <td th:text="">Test1</td>-->
+<!--                        <td th:text="">Test2</td>-->
+<!--                        <td th:text="">Test3</td>-->
+<!--                    </tr>-->
                 <tr>
                     <td>TestA</td>
                     <td>TestB</td>
