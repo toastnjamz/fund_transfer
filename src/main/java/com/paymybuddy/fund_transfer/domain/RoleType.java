@@ -18,12 +18,12 @@ public class RoleType {
 
     private String roleType;
 
-//    @OneToMany(mappedBy = "roleType")
-//    @JsonManagedReference
-//    private List<User> usersList;
+//    @OneToOne(mappedBy = "roleType", cascade = CascadeType.ALL)
+//    private User user;
 
-    @OneToOne(mappedBy = "roleType", cascade = CascadeType.ALL)
-    private User user;
+    @OneToMany(mappedBy = "roleType")
+    @JsonManagedReference
+    private List<User> usersList;
 
     public RoleType() { }
 
@@ -47,20 +47,20 @@ public class RoleType {
         this.roleType = roleType;
     }
 
-//    public List<User> getUsersList() {
-//        return usersList;
+//    public User getUser() {
+//        return user;
 //    }
 //
-//    public void setUsersList(List<User> usersList) {
-//        this.usersList = usersList;
+//    public void setUser(User user) {
+//        this.user = user;
 //    }
 
-    public User getUser() {
-        return user;
+    public List<User> getUsersList() {
+        return usersList;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsersList(List<User> usersList) {
+        this.usersList = usersList;
     }
 
     @Override

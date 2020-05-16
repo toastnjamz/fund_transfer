@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+    <title>Profile</title>
+</head>
+<body>
+<div class="mainContainer">
+    <div class="navbar">
+        <ul>
+            <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
+                                      alt="Company Icon"></li>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/transfer">Transfer</a></li>
+            <li><a class="selected" href="/profile">Profile</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+    <div id="breadcrumb">
+        <div id="pageLocationTitle">Home / <span style="color:grey">Profile</span></div>
+    </div>
+    <div class="topContainer">
+        <div class="welcomeText">
+            <h2>User Name: <span th:text="${#authentication.getPrincipal().getDisplayName()}"/></h2>
+            <h3>Email: <span th:text="${#authentication.getPrincipal().getUsername()}"/></h3>
+        </div>
+        <div class="containerRow" id="containerSubRow">
+            <div class="sectionTitle">$999.99 in Pay My Buddy</div>
+            <div>
+                <button class=addConnectionButton onclick="location.href='/profile'" name="addConnectionButton" type="button"
+                        value="Transfer to Bank">Transfer to Bank</button>
+            </div>
+        </div>
+        <div class="containerRow" id="payConnectionContainer">
+            <div id="containerItems">
+                <ul>
+                    <li><div class="amountAmountSelector">
+                        <input type="text" id="amount" th:name="amount" name="amount" placeholder="How much?"/>
+                    </div></li>
+                    <li><button class="payButton" onclick="location.href='/profile'" name="payButton" type="submit"
+                                value="Add Funds">Add Funds</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer"></div>
+</div>
+</body>
+</html>

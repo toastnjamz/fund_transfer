@@ -12,10 +12,10 @@
             <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
                                       alt="Company Icon"></li></a>
             <li><a href="/home">Home</a></li>
-            <li><a class="selected" href="#">Transfer</a></li>
+            <li><a class="selected" href="/transfer">Transfer</a></li>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/contact">Contact</a></li>
-            <li><a href="/logout" th:action="@{/perform_logout}">Logout</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
     </div>
     <div id="breadcrumb">
@@ -25,7 +25,7 @@
         <div class="containerRow" id="containerSubRow">
             <div class="sectionTitle">Send Money</div>
             <div>
-                <button class=addConnectionButton onclick="" name="addConnectionButton" type="button"
+                <button class=addConnectionButton onclick="#" name="addConnectionButton" type="button"
                         value="Add Connection">Add Connection</button>
             </div>
         </div>

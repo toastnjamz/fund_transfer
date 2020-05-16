@@ -24,13 +24,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinColumn(name = "fk_user_role_type_id")
-//    @JsonBackReference
 //    private RoleType roleType;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_user_role_type_id")
+    @JsonBackReference
     private RoleType roleType;
 
     @NotEmpty(message="Please provide an email.")

@@ -16,7 +16,7 @@
             <li><a href="/transfer">Transfer</a></li>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/contact">Contact</a></li>
-            <li><a href="/logout" th:action="@{/perform_logout}">Logout</a></li>
+            <li><a href="/logout">Logout</a></li>
         </ul>
     </div>
     <div id="breadcrumb">
@@ -24,7 +24,7 @@
     </div>
     <div class="topContainer">
         <div class="welcomeText">
-            <h3>Welcome, <span th:text="${#authentication.name}"/>!</h3>
+            <h2>Welcome, <span th:text="${#authentication.getPrincipal().getDisplayName()}"/>!</h2>
         </div>
         <img id="homepageImage" src="../static/images/homeimage.png" th:src="@{/images/homeimage.png}"
              alt="Company Logo">

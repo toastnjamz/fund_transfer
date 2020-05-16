@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -43,21 +42,27 @@ public class UserController {
 
         User userExists = userService.findUserByEmail(user.getEmail());
         if (userExists != null) {
-            result.reject("error-registration");
+            result.rejectValue("email", "error-registration","The email you entered is already taken.");
         }
 
         if (result.hasErrors()) {
             modelAndView.setViewName("/register");
         }
         else {
-//            userService.createUserByRegistration(user.getEmail(), user.getPassword(), user.getDisplayName());
             userService.createUserByRegistration(user);
-//            modelAndView.addObject("user", new User());
             modelAndView.setViewName("/login");
 
         }
         return modelAndView;
     }
+
+    @GetMapping("/profile")
+    public ModelAndView profile() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("profile");
+        return modelAndView;
+    }
+
 
 
     @GetMapping("/users")
