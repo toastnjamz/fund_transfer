@@ -83,7 +83,8 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User userFromAuth = userService.getUserFromAuth(auth);
         if (userFromAuth != null) {
-            modelAndView.setViewName("profile");
+            connectionService.createConnection(userFromAuth.getEmail(), user.getEmail());
+            modelAndView.setViewName("user/transfer");
         }
         else {
             modelAndView.setViewName("/login");

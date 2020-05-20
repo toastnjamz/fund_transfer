@@ -33,14 +33,14 @@
             <form name="form" th:action="@{/user/addConnection}" th:object="${connection}" method="post">
                 <div id="containerItems">
                     <ul>
-                        <li><div class="amountAmountSelector">
-                            <input type="text" id="amount" th:name="amount" name="amount" placeholder="Enter your friend's email."/>
+                        <li><div class="emailSelector">
+                            <input type="text" id="username" name="email" th:field="*{connection.user.email}"
+                                   placeholder="Enter your friend's email."/>
                         </div></li>
-                        <li><button class=addConnectionButton onclick="location.href='/user/addConnection'" name="addConnectionButton" type="button"
-                                    value="Add Connection">Add Connection</button></li>
+                        <li><button class=addConnectionButton type="submit">Add Connection</button></li>
                     </ul>
                 </div>
-            </form>git status
+            </form>
         </div>
     </div>
     <div class="bottomContainer"></div>

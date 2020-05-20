@@ -178,7 +178,7 @@ li{
     padding-bottom: 30px;
 }
 
-#amountAmountSelector{
+#amountAmountSelector, emailSelector {
     align-self: flex-start;
 }
 
