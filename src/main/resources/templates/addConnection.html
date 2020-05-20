@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../static/css/style.css" type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Add Connection</title>
+</head>
+<body>
+<div class="mainContainer">
+    <div class="navbar">
+        <ul>
+            <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
+                                      alt="Company Icon"></li></a>
+            <li><a href="/user/home">Home</a></li>
+            <li><a class="selected" href="/user/transfer">Transfer</a></li>
+            <li><a href="/user/profile">Profile</a></li>
+            <li><a href="/user/contact">Contact</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+    <div id="breadcrumb">
+        <div id="pageLocationTitle">Home / Transfer / <span style="color:grey">Add Connection</span></div>
+    </div>
+    <div class="topContainer">
+        <div class="containerRow" id="containerSubRow">
+            <div class="sectionTitle">Add Connection</div>
+        </div>
+        <div class="containerRow" id="containerSubRow1">
+            <div class="subheaderInstructions">Search for a friend to connect to.</div>
+            <div class="subheaderInstructions">They will be added to your list of connections if they're registered with Pay My Buddy.</div>
+        </div>
+        <div class="containerRow" id="addConnectionContainer">
+            <form name="form" th:action="@{/user/addConnection}" th:object="${connection}" method="post">
+                <div id="containerItems">
+                    <ul>
+                        <li><div class="amountAmountSelector">
+                            <input type="text" id="amount" th:name="amount" name="amount" placeholder="Enter your friend's email."/>
+                        </div></li>
+                        <li><button class=addConnectionButton onclick="location.href='/user/addConnection'" name="addConnectionButton" type="button"
+                                    value="Add Connection">Add Connection</button></li>
+                    </ul>
+                </div>
+            </form>git status
+        </div>
+    </div>
+    <div class="bottomContainer"></div>
+</div>
+<div class="footer"></div>
+</div>
+</body>
+</html>

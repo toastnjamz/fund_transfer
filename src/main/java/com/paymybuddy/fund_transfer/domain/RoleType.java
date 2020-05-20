@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "role_type")
+@Table(name = "role_type", catalog = "fund_transfer")
 @EntityListeners(AuditingEntityListener.class)
 public class RoleType {
 
@@ -18,7 +18,7 @@ public class RoleType {
 
     private String roleType;
 
-//    @OneToOne(mappedBy = "roleType", cascade = CascadeType.ALL)
+//    @OneToOne(mappedBy = "roleType")
 //    private User user;
 
     @OneToMany(mappedBy = "roleType")

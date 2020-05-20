@@ -11,10 +11,10 @@
         <ul>
             <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
                                       alt="Company Icon"></li>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/transfer">Transfer</a></li>
-            <li><a class="selected" href="/profile">Profile</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/user/home">Home</a></li>
+            <li><a href="/user/transfer">Transfer</a></li>
+            <li><a class="selected" href="/user/profile">Profile</a></li>
+            <li><a href="/user/contact">Contact</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </div>
@@ -29,7 +29,7 @@
         <div class="containerRow" id="containerSubRow">
             <div class="sectionTitle">$999.99 in Pay My Buddy</div>
             <div>
-                <button class=addConnectionButton onclick="location.href='/profile'" name="addConnectionButton" type="button"
+                <button class=addConnectionButton onclick="location.href='/user/profile'" name="addConnectionButton" type="button"
                         value="Transfer to Bank">Transfer to Bank</button>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     <li><div class="amountAmountSelector">
                         <input type="text" id="amount" th:name="amount" name="amount" placeholder="How much?"/>
                     </div></li>
-                    <li><button class="payButton" onclick="location.href='/profile'" name="payButton" type="submit"
+                    <li><button class="payButton" onclick="location.href='/user/profile'" name="payButton" type="submit"
                                 value="Add Funds">Add Funds</button></li>
                 </ul>
             </div>

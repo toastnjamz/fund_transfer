@@ -267,6 +267,29 @@ tr, td {
     background-color: #ddd;
 }
 
+#addConnectionContainer {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    margin: auto;
+    background-color: #f2f2f2;
+}
+
+.subheaderInstructions {
+    font-size: 18px;
+    font-weight: 200;
+    text-decoration: none;
+    color: #151814;
+    margin: auto 0px auto;
+}
+
+#containerSubRow1 {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    margin: 20px auto;
+}
 
 
 

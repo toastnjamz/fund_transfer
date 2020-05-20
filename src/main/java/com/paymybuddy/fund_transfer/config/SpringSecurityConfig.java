@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
@@ -39,7 +41,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login**").permitAll()
                 .antMatchers("/perform_login").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/contact").permitAll()
                 .antMatchers("/admin**").hasRole("Admin")
                 .antMatchers("/user**").hasAnyRole("Admin", "Regular")
                 .and().csrf().disable()
@@ -50,11 +51,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/perform_login")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/home", true)
+                .defaultSuccessUrl("/user/home", true)
                 .failureUrl("/login?error=true")
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout=true");
+
+//        http.
+//                sessionManagement()
+//                .invalidSessionUrl("/login")
+//                .maximumSessions(1)
+//                .sessionRegistry(sessionRegistry())
+//                .expiredUrl("/login");
     }
 
     @Override
@@ -68,4 +76,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+//    @Bean
+//    public SessionRegistry sessionRegistry() {
+//        return new SessionRegistryImpl();
+//    }
 }

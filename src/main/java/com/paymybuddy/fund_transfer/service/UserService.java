@@ -1,6 +1,7 @@
 package com.paymybuddy.fund_transfer.service;
 
 import com.paymybuddy.fund_transfer.domain.User;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ public interface UserService {
     public User findUserById(int id);
 
     public User findUserByEmail(String email);
+
+    public User getUserFromAuth(Authentication auth);
 
     public User createUser(User user);
 

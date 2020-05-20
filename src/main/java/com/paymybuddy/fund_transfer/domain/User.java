@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,7 +25,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "fk_user_role_type_id")
 //    private RoleType roleType;
 
@@ -66,6 +67,10 @@ public class User {
     @Type(type = "numeric_boolean")
     private boolean isActive;
 
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Connection> connectionList;
+
     public User() {}
 
     public User(RoleType roleType, @NotEmpty String email, @NotEmpty String password, String displayName) {
@@ -75,9 +80,8 @@ public class User {
         this.displayName = displayName;
     }
 
-    //TODO: Remove test method
+    //TODO: Remove test constructor?
     public User(@NotEmpty String email, @NotEmpty String password, String displayName) {
-//        this.roleType = new RoleType(2, "Regular");
         this.email = email;
         this.password = password;
         this.displayName = displayName;
@@ -145,6 +149,19 @@ public class User {
 
     public void setIsActive(boolean isActive) {
         isActive = isActive;
+    }
+
+    public List<Connection> getConnectionList() {
+        return connectionList;
+    }
+
+    public void setConnectionList(List<Connection> connectionList) {
+        this.connectionList = connectionList;
+    }
+
+    //TODO: remove later if not being used
+    public void AddConnectionToConnectionList(Connection connection) {
+        connectionList.add(connection);
     }
 
     @PrePersist

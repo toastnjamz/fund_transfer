@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class TransferController {
 
-    @GetMapping("/transfer")
+    @GetMapping("/user/transfer")
     public ModelAndView transfer() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("transfer");

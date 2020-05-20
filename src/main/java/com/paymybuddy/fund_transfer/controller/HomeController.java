@@ -7,14 +7,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class HomeController {
 
-    @GetMapping("/home")
+    @GetMapping("/user/home")
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
         return modelAndView;
     }
 
-    @GetMapping("/contact")
+    @GetMapping("/user/contact")
     public ModelAndView contact() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("contact");

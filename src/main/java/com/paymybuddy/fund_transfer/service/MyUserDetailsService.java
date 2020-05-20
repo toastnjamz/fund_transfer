@@ -42,6 +42,7 @@ public class MyUserDetailsService implements UserDetailsService {
 //        return myUserDetails;
 //    }
 
+    // Replacing username with email here, since it's the unique identifier i'm using.
     @Override
     @Transactional
     public MyUserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
@@ -52,6 +53,7 @@ public class MyUserDetailsService implements UserDetailsService {
         MyUserDetails myUserDetails = new MyUserDetails(user, user.getRoleType());
         return myUserDetails;
     }
+
 
 //    @Override
 //    @Transactional

@@ -1,10 +1,14 @@
 package com.paymybuddy.fund_transfer.controller;
 
+import com.paymybuddy.fund_transfer.domain.Connection;
 import com.paymybuddy.fund_transfer.domain.RoleType;
 import com.paymybuddy.fund_transfer.domain.User;
+import com.paymybuddy.fund_transfer.service.ConnectionService;
 import com.paymybuddy.fund_transfer.service.RoleTypeService;
 import com.paymybuddy.fund_transfer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,11 +24,13 @@ public class UserController {
 
     private UserService userService;
     private RoleTypeService roleTypeService;
+    private ConnectionService connectionService;
 
     @Autowired
-    public UserController(UserService userService, RoleTypeService roleTypeService) {
+    public UserController(UserService userService, RoleTypeService roleTypeService, ConnectionService connectionService) {
         this.userService = userService;
         this.roleTypeService = roleTypeService;
+        this.connectionService = connectionService;
     }
 
     @GetMapping("/register")
@@ -56,15 +62,49 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping("/profile")
+    @GetMapping("/user/profile")
     public ModelAndView profile() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("profile");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserFromAuth(auth);
+        if (user != null) {
+            modelAndView.setViewName("profile");
+        }
+        else {
+            modelAndView.setViewName("/login");
+        }
+        return modelAndView;
+    }
+
+    //TODO
+    @GetMapping("/user/addConnection")
+    public ModelAndView getAddConnection(@ModelAttribute("user") User user) {
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User userFromAuth = userService.getUserFromAuth(auth);
+        if (userFromAuth != null) {
+            modelAndView.setViewName("profile");
+        }
+        else {
+            modelAndView.setViewName("/login");
+        }
+        return modelAndView;
+    }
+
+    //TODO
+    @PostMapping("/user/addConnection")
+    public ModelAndView createAddConnection(@ModelAttribute("user") User user) {
+        ModelAndView modelAndView = new ModelAndView();
         return modelAndView;
     }
 
 
 
+
+
+    //TODO: Delete unused controller methods?
+
+    //User CRUD methods
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.findAllUsers();
@@ -98,7 +138,7 @@ public class UserController {
         response.setStatus(200);
     }
 
-    // Role Type Methods
+    // RoleType CRUD Methods
     @GetMapping("/roleTypes")
     public List<RoleType> getAllRoleTypes() {
         return roleTypeService.findAllRoleTypes();

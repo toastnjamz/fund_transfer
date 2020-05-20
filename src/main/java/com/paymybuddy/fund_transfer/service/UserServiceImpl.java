@@ -1,14 +1,20 @@
 package com.paymybuddy.fund_transfer.service;
 
+import com.paymybuddy.fund_transfer.domain.MyUserDetails;
 import com.paymybuddy.fund_transfer.domain.RoleType;
 import com.paymybuddy.fund_transfer.domain.User;
 import com.paymybuddy.fund_transfer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.Session;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,12 +23,43 @@ public class UserServiceImpl implements UserService {
     private RoleTypeService roleTypeService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+//    @Autowired
+//    private SessionRegistry sessionRegistry;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleTypeService roleTypeService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleTypeService = roleTypeService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
+
+//    //Gets all logged in users
+//    public List<String> getUsersFromSessionRegistry() {
+//        return sessionRegistry.getAllPrincipals().stream()
+//                .filter(u -> !sessionRegistry.getAllSessions(u, false).isEmpty())
+//                .map(Object::toString)
+//                .collect(Collectors.toList());
+//    }
+
+//    public User getUserFromAuth(Authentication auth) {
+//        MyUserDetails userDetails = (MyUserDetails)auth.getPrincipal();
+//        if (userDetails != null) {
+//            User user = findUserByEmail(userDetails.getUsername());
+//            return user;
+//        }
+//        return null;
+//    }
+
+    //TODO: Does this effectively add a security layer?
+    public User getUserFromAuth(Authentication auth) {
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            MyUserDetails userDetails = (MyUserDetails)auth.getPrincipal();
+            User user = findUserByEmail(userDetails.getUsername());
+            return user;
+        }
+        return null;
+    }
+
 
     @Override
     public List<User> findAllUsers() {
@@ -49,19 +86,6 @@ public class UserServiceImpl implements UserService {
     public User createUser(User user) {
         return userRepository.save(user);
     }
-
-    //TODO: Remove or update test method
-//    @Override
-//    public User createUserByRegistration(String userEmail, String userPassword, String userDisplayName) {
-//        User user = new User();
-//        user.setEmail(userEmail);
-//        user.setPassword(bCryptPasswordEncoder.encode(userPassword));
-//        user.setDisplayName(userDisplayName);
-//        RoleType role = roleTypeService.findRoleTypeByRoleType("Regular");
-//        user.setRoleType(role);
-//        user.setIsActive(true);
-//        return userRepository.save(user);
-//    }
 
     //TODO: Remove?
     @Override

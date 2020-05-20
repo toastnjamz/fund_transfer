@@ -11,10 +11,10 @@
         <ul>
             <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
                                       alt="Company Icon"></li></a>
-            <li><a href="/home">Home</a></li>
-            <li><a class="selected" href="/transfer">Transfer</a></li>
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/user/home">Home</a></li>
+            <li><a class="selected" href="/user/transfer">Transfer</a></li>
+            <li><a href="/user/profile">Profile</a></li>
+            <li><a href="/user/contact">Contact</a></li>
             <li><a href="/logout">Logout</a></li>
         </ul>
     </div>
@@ -25,12 +25,12 @@
         <div class="containerRow" id="containerSubRow">
             <div class="sectionTitle">Send Money</div>
             <div>
-                <button class=addConnectionButton onclick="location.href='/transfer'" name="addConnectionButton" type="button"
+                <button class=addConnectionButton onclick="location.href='/user/addConnection'" name="addConnectionButton" type="button"
                         value="Add Connection">Add Connection</button>
             </div>
         </div>
         <div class="containerRow" id="payConnectionContainer">
-            <form name="form" th:action="@{/transfer}" method="post">
+            <form name="form" th:action="@{/user/transfer}" method="post">
                 <div id="containerItems">
                     <ul>
                         <li><select id="connectionsSelector" th:name="email" name="email" th:remove="all-but-first"/>
@@ -48,7 +48,7 @@
                         <li><div class="descriptionInput">
                             <input type="text" id="description" th:name="description" name="description" placeholder="What's it for?"/>
                             </div></li>
-                        <li><button class="payButton" onclick="location.href='/transfer'" name="payButton" type="submit"
+                        <li><button class="payButton" onclick="location.href='/user/transfer'" name="payButton" type="submit"
                              value="Pay">Pay</button></li>
                     </ul>
                 </div>
