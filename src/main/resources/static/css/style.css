@@ -168,7 +168,7 @@ li{
 #payConnectionContainer {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
     margin: auto;
     background-color: #f2f2f2;
@@ -178,9 +178,13 @@ li{
     padding-bottom: 30px;
 }
 
-#amountAmountSelector, emailSelector {
+#amountAmountSelector {
     align-self: flex-start;
 }
+
+#emailSelector {
+     align-self: flex-start;
+ }
 
 #descriptionInput{
 }
@@ -190,7 +194,8 @@ li{
     border: none;
     border-radius: 8px;
     color: white;
-    padding: 8px 65px;
+/*    padding: 8px 65px;*/
+    padding: 8px 45px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -291,7 +296,10 @@ tr, td {
     margin: 20px auto;
 }
 
-
+#addConnectionEmailError {
+    text-align: center;
+    margin: auto;
+}
 
 .login {
     position: relative;

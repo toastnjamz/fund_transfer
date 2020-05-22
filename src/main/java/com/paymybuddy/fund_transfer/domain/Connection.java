@@ -3,6 +3,8 @@ package com.paymybuddy.fund_transfer.domain;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -18,13 +20,17 @@ public class Connection {
     @JoinColumn(name = "fk_user_id")
     private User owningUser;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_connection_user_id")
     private User connectedUser;
 
-    //TODO: Remove?
+//    //TODO: How to remove this, since @Transient doesn't work and ConnectionRepository seems to need it?
     //Email field for ConnectionRepository method findConnectionListByUserEmail()
     private String userEmail;
+
+//    @Transient
+//    private String connectedUserEmail;
 
     //TODO: List<Transaction> transactionList, will go here?
 
@@ -34,6 +40,7 @@ public class Connection {
         this.owningUser = owningUser;
         this.connectedUser = connectedUser;
         this.userEmail = owningUser.getEmail();
+//        this.connectedUserEmail = connectedUser.getEmail();
     }
 
     public int getId() {

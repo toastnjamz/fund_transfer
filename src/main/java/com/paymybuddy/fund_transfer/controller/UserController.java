@@ -41,11 +41,9 @@ public class UserController {
         return modelAndView;
     }
 
-    //TODO: Setup to validate input and create new user
     @PostMapping("/register")
     public ModelAndView registerNewUser(@Valid @ModelAttribute("user") User user, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView();
-
         User userExists = userService.findUserByEmail(user.getEmail());
         if (userExists != null) {
             result.rejectValue("email", "error-registration","The email you entered is already taken.");
@@ -71,20 +69,19 @@ public class UserController {
             modelAndView.setViewName("profile");
         }
         else {
-            modelAndView.setViewName("/login");
+            modelAndView.setViewName("redirect:/login");
         }
         return modelAndView;
     }
 
-    //TODO
     @GetMapping("/user/addConnection")
     public ModelAndView getAddConnection(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User userFromAuth = userService.getUserFromAuth(auth);
         if (userFromAuth != null) {
-            connectionService.createConnection(userFromAuth.getEmail(), user.getEmail());
-            modelAndView.setViewName("user/transfer");
+            modelAndView.setViewName("addConnection");
+            modelAndView.addObject("user", user);
         }
         else {
             modelAndView.setViewName("/login");
@@ -92,10 +89,25 @@ public class UserController {
         return modelAndView;
     }
 
-    //TODO
     @PostMapping("/user/addConnection")
-    public ModelAndView createAddConnection(@ModelAttribute("user") User user) {
+    public ModelAndView createAddConnection(@ModelAttribute("user") User user, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User userFromAuth = userService.getUserFromAuth(auth);
+        if (userFromAuth != null) {
+            if (userService.findUserByEmail(user.getEmail()) != null) {
+                connectionService.createConnection(userFromAuth.getEmail(), user.getEmail());
+                //TODO: fix 
+                modelAndView.setViewName("redirect:/transfer");
+            }
+            else {
+                result.rejectValue("email", "error-addConnection", "The email you entered isn't registered with our system.");
+                modelAndView.setViewName("addConnection");
+            }
+        }
+        else {
+            modelAndView.setViewName("redirect:/login");
+        }
         return modelAndView;
     }
 

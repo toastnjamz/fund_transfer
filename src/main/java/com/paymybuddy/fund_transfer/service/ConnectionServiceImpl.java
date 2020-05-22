@@ -52,6 +52,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 
 
 
+    //TODO: Remove unused service methods?
     @Override
     public Connection findConnectionById(int id) {
         Optional<Connection> connectionOptional = connectionRepository.findById(id);
@@ -62,7 +63,6 @@ public class ConnectionServiceImpl implements ConnectionService {
         return null;
     }
 
-    //TODO: Update to take two emails instead
     @Override
     public Connection createConnection(Connection connection) {
         return connectionRepository.save(connection);

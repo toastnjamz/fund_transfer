@@ -33,11 +33,11 @@
             <form name="form" th:action="@{/user/transfer}" method="post">
                 <div id="containerItems">
                     <ul>
-                        <li><select id="connectionsSelector" th:name="email" name="email" th:remove="all-but-first"/>
-<!--                            <option th:each=""-->
-<!--                                th:text=""-->
-<!--                                th:value="">-->
-<!--                            </option>-->
+                        <li><select id="connectionsSelector" th:name="email" name="email" th:remove="all-but-first">
+                            <option th:each="connection : ${connectionList}"
+                                    th:text="${connection.connectedUser.email}"
+                                    th:value="${connection.connectedUser.email}">
+                            </option>
                             <option>test1@email.com</option>
                             <option>test2@email.com</option>
                             <option>test3@email.com</option>

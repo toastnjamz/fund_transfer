@@ -41,14 +41,21 @@ public class UserServiceImpl implements UserService {
 //                .collect(Collectors.toList());
 //    }
 
-//    public User getUserFromAuth(Authentication auth) {
-//        MyUserDetails userDetails = (MyUserDetails)auth.getPrincipal();
-//        if (userDetails != null) {
-//            User user = findUserByEmail(userDetails.getUsername());
-//            return user;
-//        }
-//        return null;
-//    }
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    @Override
+    public User createUserByRegistration(User user) {
+        User registeredUser = new User();
+        registeredUser.setEmail(user.getEmail());
+        registeredUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        registeredUser.setDisplayName(user.getDisplayName());
+        registeredUser.setRoleType(roleTypeService.findRoleTypeByRoleType("Regular"));
+        registeredUser.setIsActive(true);
+        return userRepository.save(registeredUser);
+    }
 
     //TODO: Does this effectively add a security layer?
     public User getUserFromAuth(Authentication auth) {
@@ -61,6 +68,11 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+
+
+
+    //TODO: Remove unused service methods?
     @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
@@ -77,26 +89,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
-    }
-
-    //TODO: Remove if not using or add validation
-    @Override
     public User createUser(User user) {
         return userRepository.save(user);
-    }
-
-    //TODO: Remove?
-    @Override
-    public User createUserByRegistration(User user) {
-        User registeredUser = new User();
-        registeredUser.setEmail(user.getEmail());
-        registeredUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        registeredUser.setDisplayName(user.getDisplayName());
-        registeredUser.setRoleType(roleTypeService.findRoleTypeByRoleType("Regular"));
-        registeredUser.setIsActive(true);
-        return userRepository.save(registeredUser);
     }
 
     @Override
