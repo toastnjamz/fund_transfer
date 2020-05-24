@@ -71,6 +71,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Connection> connectionList;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Account account;
+
     public User() {}
 
     public User(RoleType roleType, @NotEmpty String email, @NotEmpty String password, String displayName) {
@@ -159,9 +162,12 @@ public class User {
         this.connectionList = connectionList;
     }
 
-    //TODO: remove later if not being used
-    public void AddConnectionToConnectionList(Connection connection) {
-        connectionList.add(connection);
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @PrePersist

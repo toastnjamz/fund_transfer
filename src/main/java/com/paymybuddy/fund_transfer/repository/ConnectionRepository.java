@@ -9,9 +9,8 @@ import java.util.List;
 @Repository
 public interface ConnectionRepository extends JpaRepository<Connection, Integer> {
 
-    //TODO: do I need this? Where will I use it?
+    //TODO: delete unused method?
     Connection findConnectionByUserEmail(String userEmail);
 
-    //TODO: how can this work? Shouldn't this go in a service class?
     List<Connection> findConnectionListByUserEmail(String userEmail);
 }

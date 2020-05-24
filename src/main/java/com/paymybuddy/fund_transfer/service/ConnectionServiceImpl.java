@@ -21,7 +21,6 @@ public class ConnectionServiceImpl implements ConnectionService {
         this.userService = userService;
     }
 
-    //TODO: remove and replace with findConnectionByUserEmail(String email)?
     @Override
     public List<Connection> findConnectionListByUserEmail(String email) {
         return connectionRepository.findConnectionListByUserEmail(email);

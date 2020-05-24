@@ -1,8 +1,6 @@
 package com.paymybuddy.fund_transfer.service;
 
-import com.paymybuddy.fund_transfer.domain.MyUserDetails;
-import com.paymybuddy.fund_transfer.domain.RoleType;
-import com.paymybuddy.fund_transfer.domain.User;
+import com.paymybuddy.fund_transfer.domain.*;
 import com.paymybuddy.fund_transfer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -12,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Session;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,15 +21,23 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private RoleTypeService roleTypeService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private AccountService accountService;
+    private AccountTypeService accountTypeService;
+    private CurrencyService currencyService;
 
 //    @Autowired
 //    private SessionRegistry sessionRegistry;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleTypeService roleTypeService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, RoleTypeService roleTypeService,
+                           BCryptPasswordEncoder bCryptPasswordEncoder, AccountService accountService,
+                           AccountTypeService accountTypeService, CurrencyService currencyService) {
         this.userRepository = userRepository;
         this.roleTypeService = roleTypeService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.accountService = accountService;
+        this.accountTypeService = accountTypeService;
+        this.currencyService = currencyService;
     }
 
 //    //Gets all logged in users
@@ -41,22 +48,6 @@ public class UserServiceImpl implements UserService {
 //                .collect(Collectors.toList());
 //    }
 
-    @Override
-    public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
-    }
-
-    @Override
-    public User createUserByRegistration(User user) {
-        User registeredUser = new User();
-        registeredUser.setEmail(user.getEmail());
-        registeredUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        registeredUser.setDisplayName(user.getDisplayName());
-        registeredUser.setRoleType(roleTypeService.findRoleTypeByRoleType("Regular"));
-        registeredUser.setIsActive(true);
-        return userRepository.save(registeredUser);
-    }
-
     //TODO: Does this effectively add a security layer?
     public User getUserFromAuth(Authentication auth) {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -65,6 +56,29 @@ public class UserServiceImpl implements UserService {
             return user;
         }
         return null;
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    //This method is for a user-specific registration flow. A separate admin registration flow can be added if needed.
+    @Override
+    public User createUserByRegistration(User user) {
+        User registeredUser = new User();
+        registeredUser.setEmail(user.getEmail());
+        registeredUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        registeredUser.setDisplayName(user.getDisplayName());
+        registeredUser.setRoleType(roleTypeService.findRoleTypeByRoleType("Regular"));
+        registeredUser.setIsActive(true);
+
+        //Creating a new account for the user with $0.00 balance USD
+        Account account = new Account(registeredUser, accountTypeService.findAccountTypeByAccountType("Regular"),
+                currencyService.findCurrencyByCurrencyLabel("USD"), new BigDecimal(0.00));
+        accountService.createAccount(account);
+        registeredUser.setAccount(account);
+        return userRepository.save(registeredUser);
     }
 
 

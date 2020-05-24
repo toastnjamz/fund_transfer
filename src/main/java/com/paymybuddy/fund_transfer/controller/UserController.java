@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -97,8 +98,9 @@ public class UserController {
         if (userFromAuth != null) {
             if (userService.findUserByEmail(user.getEmail()) != null) {
                 connectionService.createConnection(userFromAuth.getEmail(), user.getEmail());
-                //TODO: fix 
-                modelAndView.setViewName("redirect:/transfer");
+                RedirectView redirectView = new RedirectView();
+                redirectView.setUrl("/user/transfer");
+                modelAndView.setView(redirectView);
             }
             else {
                 result.rejectValue("email", "error-addConnection", "The email you entered isn't registered with our system.");

@@ -25,14 +25,6 @@ public class TransferController {
         this.connectionService = connectionService;
     }
 
-    //TODO: delete method
-//    @GetMapping("/user/transfer")
-//    public ModelAndView transferOG() {
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("transfer");
-//        return modelAndView;
-//    }
-
     @GetMapping("/user/transfer")
     public ModelAndView getTransfer() {
         ModelAndView modelAndView = new ModelAndView();

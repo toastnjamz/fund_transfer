@@ -16,6 +16,7 @@ public class RoleType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    //There are currently two role types: 1 - Admin, 2 - User
     private String roleType;
 
 //    @OneToOne(mappedBy = "roleType")

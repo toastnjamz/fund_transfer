@@ -29,9 +29,6 @@ public class Connection {
     //Email field for ConnectionRepository method findConnectionListByUserEmail()
     private String userEmail;
 
-//    @Transient
-//    private String connectedUserEmail;
-
     //TODO: List<Transaction> transactionList, will go here?
 
     public Connection() {};
@@ -40,7 +37,6 @@ public class Connection {
         this.owningUser = owningUser;
         this.connectedUser = connectedUser;
         this.userEmail = owningUser.getEmail();
-//        this.connectedUserEmail = connectedUser.getEmail();
     }
 
     public int getId() {
