@@ -1,10 +1,7 @@
 package com.paymybuddy.fund_transfer.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Type;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -25,13 +22,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "fk_user_role_type_id")
-//    private RoleType roleType;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user_role_type_id")
-    @JsonBackReference
     private RoleType roleType;
 
     @NotEmpty(message="Please provide an email.")
@@ -56,19 +48,10 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedOn;
 
-//    @Column(name = "created_by")
-//    @CreatedBy
-//    private User createdBy;
-//
-//    @Column(name = "updated_by")
-//    @LastModifiedBy
-//    private User updatedBy;
-
     @Type(type = "numeric_boolean")
     private boolean isActive;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Connection> connectionList;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -78,13 +61,6 @@ public class User {
 
     public User(RoleType roleType, @NotEmpty String email, @NotEmpty String password, String displayName) {
         this.roleType = roleType;
-        this.email = email;
-        this.password = password;
-        this.displayName = displayName;
-    }
-
-    //TODO: Remove test constructor?
-    public User(@NotEmpty String email, @NotEmpty String password, String displayName) {
         this.email = email;
         this.password = password;
         this.displayName = displayName;

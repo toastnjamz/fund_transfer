@@ -3,8 +3,6 @@ package com.paymybuddy.fund_transfer.domain;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -16,27 +14,19 @@ public class Connection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    //Owning user (the user to whom the connection belongs)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_user_id")
-    private User owningUser;
+    private User user;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "fk_connection_user_id")
-    private User connectedUser;
-
-//    //TODO: How to remove this, since @Transient doesn't work and ConnectionRepository seems to need it?
-    //Email field for ConnectionRepository method findConnectionListByUserEmail()
-    private String userEmail;
-
-    //TODO: List<Transaction> transactionList, will go here?
+    @Column(name = "connected_user_id")
+    private int connectedUserId;
 
     public Connection() {};
 
-    public Connection(User owningUser, User connectedUser) {
-        this.owningUser = owningUser;
-        this.connectedUser = connectedUser;
-        this.userEmail = owningUser.getEmail();
+    public Connection(User user, int connectedUserId) {
+        this.user = user;
+        this.connectedUserId = connectedUserId;
     }
 
     public int getId() {
@@ -47,20 +37,20 @@ public class Connection {
         this.id = id;
     }
 
-    public User getOwningUser() {
-        return owningUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwningUser(User owningUser) {
-        this.owningUser = owningUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public User getConnectedUser() {
-        return connectedUser;
+    public int getConnectedUserId() {
+        return connectedUserId;
     }
 
-    public void setConnectedUser(User connectedUser) {
-        this.connectedUser = connectedUser;
+    public void setConnectedUserId(int connectedUserId) {
+        this.connectedUserId = connectedUserId;
     }
 
     @Override

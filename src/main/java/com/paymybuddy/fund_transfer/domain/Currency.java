@@ -13,17 +13,17 @@ import java.util.Objects;
 public class Currency {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //There is currently one currency type - USD for US Dollars
+    //Currency types - 1: USD for US Dollars
     private String currencyLabel;
 
     private String currencyDescription;
 
-    @OneToMany(mappedBy = "currency")
-    @JsonManagedReference
-    private List<Account> accountList;
+//    @OneToMany(mappedBy = "currency")
+//    @JsonManagedReference
+//    private List<Account> accountList;
 
     public Currency() { }
 
@@ -56,13 +56,13 @@ public class Currency {
         this.currencyDescription = currencyDescription;
     }
 
-    public List<Account> getAccountList() {
-        return accountList;
-    }
-
-    public void setAccountList(List<Account> accountList) {
-        this.accountList = accountList;
-    }
+//    public List<Account> getAccountList() {
+//        return accountList;
+//    }
+//
+//    public void setAccountList(List<Account> accountList) {
+//        this.accountList = accountList;
+//    }
 
     @Override
     public boolean equals(Object o) {

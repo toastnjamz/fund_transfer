@@ -1,6 +1,5 @@
 package com.paymybuddy.fund_transfer.controller;
 
-import com.paymybuddy.fund_transfer.domain.Connection;
 import com.paymybuddy.fund_transfer.domain.RoleType;
 import com.paymybuddy.fund_transfer.domain.User;
 import com.paymybuddy.fund_transfer.service.ConnectionService;
@@ -85,7 +84,7 @@ public class UserController {
             modelAndView.addObject("user", user);
         }
         else {
-            modelAndView.setViewName("/login");
+            modelAndView.setViewName("redirect:/login");
         }
         return modelAndView;
     }
@@ -97,7 +96,7 @@ public class UserController {
         User userFromAuth = userService.getUserFromAuth(auth);
         if (userFromAuth != null) {
             if (userService.findUserByEmail(user.getEmail()) != null) {
-                connectionService.createConnection(userFromAuth.getEmail(), user.getEmail());
+                connectionService.createConnection(userFromAuth, user.getEmail());
                 RedirectView redirectView = new RedirectView();
                 redirectView.setUrl("/user/transfer");
                 modelAndView.setView(redirectView);

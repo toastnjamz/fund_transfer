@@ -1,11 +1,11 @@
 package com.paymybuddy.fund_transfer.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,18 +21,19 @@ public class Account {
     @JoinColumn(name = "fk_account_user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_account_type_id")
-    @JsonBackReference
     private AccountType accountType;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_account_currency_id")
-    @JsonBackReference
     private Currency currency;
 
     @NotNull
     private BigDecimal balance;
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    private List<Transaction> transactionList;
 
     public Account() { }
 
@@ -81,6 +82,14 @@ public class Account {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
     }
 
     @Override

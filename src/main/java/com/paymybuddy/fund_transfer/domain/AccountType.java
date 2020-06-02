@@ -13,15 +13,15 @@ import java.util.Objects;
 public class AccountType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //TODO: Add more account types? There is currently one account type: 1 - Regular
+    //Account types: 1 - Regular, 2 - Bank
     private String accountType;
 
-    @OneToMany(mappedBy = "accountType")
-    @JsonManagedReference
-    private List<Account> accountList;
+//    @OneToMany(mappedBy = "accountType")
+//    @JsonManagedReference
+//    private List<Account> accountList;
 
     public AccountType() { }
 
@@ -45,13 +45,13 @@ public class AccountType {
         this.accountType = accountType;
     }
 
-    public List<Account> getAccountList() {
-        return accountList;
-    }
-
-    public void setAccountList(List<Account> accountList) {
-        this.accountList = accountList;
-    }
+//    public List<Account> getAccountList() {
+//        return accountList;
+//    }
+//
+//    public void setAccountList(List<Account> accountList) {
+//        this.accountList = accountList;
+//    }
 
     @Override
     public boolean equals(Object o) {

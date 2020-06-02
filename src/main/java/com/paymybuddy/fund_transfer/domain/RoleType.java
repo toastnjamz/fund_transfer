@@ -13,18 +13,18 @@ import java.util.Objects;
 public class RoleType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //There are currently two role types: 1 - Admin, 2 - User
+    //Role types: 1 - Admin, 2 - User, 3 - Bank
     private String roleType;
 
 //    @OneToOne(mappedBy = "roleType")
 //    private User user;
 
-    @OneToMany(mappedBy = "roleType")
-    @JsonManagedReference
-    private List<User> usersList;
+//    @OneToMany(mappedBy = "roleType")
+//    @JsonManagedReference
+//    private List<User> usersList;
 
     public RoleType() { }
 
@@ -56,13 +56,13 @@ public class RoleType {
 //        this.user = user;
 //    }
 
-    public List<User> getUsersList() {
-        return usersList;
-    }
-
-    public void setUsersList(List<User> usersList) {
-        this.usersList = usersList;
-    }
+//    public List<User> getUsersList() {
+//        return usersList;
+//    }
+//
+//    public void setUsersList(List<User> usersList) {
+//        this.usersList = usersList;
+//    }
 
     @Override
     public boolean equals(Object o) {

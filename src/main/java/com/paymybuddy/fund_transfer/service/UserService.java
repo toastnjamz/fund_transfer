@@ -17,9 +17,6 @@ public interface UserService {
 
     public User createUser(User user);
 
-    //TODO: Remove test method
-//    public User createUserByRegistration(String email, String password, String displayName);
-
     public User createUserByRegistration(User user);
 
     public void updateUser(User user);

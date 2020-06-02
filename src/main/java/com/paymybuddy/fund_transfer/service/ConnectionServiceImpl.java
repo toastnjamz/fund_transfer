@@ -1,6 +1,7 @@
 package com.paymybuddy.fund_transfer.service;
 
 import com.paymybuddy.fund_transfer.domain.Connection;
+import com.paymybuddy.fund_transfer.domain.User;
 import com.paymybuddy.fund_transfer.repository.ConnectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,29 +23,29 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
 
     @Override
-    public List<Connection> findConnectionListByUserEmail(String email) {
-        return connectionRepository.findConnectionListByUserEmail(email);
+    public List<Connection> findConnectionListByUser(User user) {
+        return connectionRepository.findConnectionListByUser(user);
     }
 
     @Override
-    public void createConnection(String owningUserEmail, String connectionUserEmail) {
-        List<Connection> connectionList = connectionRepository.findConnectionListByUserEmail(owningUserEmail);
-        if (connectionList.stream().noneMatch(connection ->
-                connection.getConnectedUser().getEmail().equals(connectionUserEmail))) {
-            Connection newConnection = new Connection(userService.findUserByEmail(owningUserEmail), userService.findUserByEmail(connectionUserEmail));
-            connectionRepository.save(newConnection);
-        }
-    }
-
-    @Override
-    public List<String> findConnectionListUIElement(String email) {
-        List<String> connectionEmailsList = new ArrayList<>();
-        if (findConnectionListByUserEmail(email) != null) {
-            for (Connection connection : findConnectionListByUserEmail(email)) {
-                connectionEmailsList.add(connection.getConnectedUser().getEmail());
+    public List<User> findConnectedUsersByOwningUser(User owningUser) {
+        List<User> connectedUsersList = new ArrayList<>();
+        if (userService.findUserById(owningUser.getId()) != null) {
+            for (Connection connection : findConnectionListByUser(owningUser)) {
+                connectedUsersList.add(userService.findUserById(connection.getConnectedUserId()));
             }
         }
-        return connectionEmailsList;
+        return connectedUsersList;
+    }
+
+    @Override
+    public void createConnection(User owningUser, String connectedUserEmail) {
+        List<Connection> connectionList = connectionRepository.findConnectionListByUser(owningUser);
+        User connectedUser = userService.findUserByEmail(connectedUserEmail);
+        if (connectionList.isEmpty() || connectionList.stream().noneMatch(connection -> userService.findUserById(connection.getConnectedUserId()).equals(connectedUser))) {
+            Connection newConnection = new Connection(owningUser, connectedUser.getId());
+            connectionRepository.save(newConnection);
+        }
     }
 
 
@@ -67,12 +68,12 @@ public class ConnectionServiceImpl implements ConnectionService {
         return connectionRepository.save(connection);
     }
 
-    @Override
-    public void updateConnection(Connection connection) {
-        Connection updatedConnection = findConnectionById(connection.getId());
-        updatedConnection.setOwningUser(connection.getOwningUser());
-        updatedConnection.setConnectedUser(connection.getConnectedUser());
-    }
+//    @Override
+//    public void updateConnection(Connection connection) {
+//        Connection updatedConnection = findConnectionById(connection.getId());
+//        updatedConnection.setOwningUser(connection.getOwningUser());
+//        updatedConnection.setConnectedUser(connection.getConnectedUser());
+//    }
 
     @Override
     public void deleteConnection(int id) {

@@ -34,9 +34,9 @@
                 <div id="containerItems">
                     <ul>
                         <li><select id="connectionsSelector" th:name="email" name="email" th:remove="all-but-first">
-                            <option th:each="connection : ${connectionList}"
-                                    th:text="${connection.connectedUser.email}"
-                                    th:value="${connection.connectedUser.email}">
+                            <option th:each="user : ${connectedUsersList}"
+                                    th:text="${user.email}"
+                                    th:value="${user.email}">
                             </option>
                             <option>test1@email.com</option>
                             <option>test2@email.com</option>
@@ -48,8 +48,7 @@
                         <li><div class="descriptionInput">
                             <input type="text" id="description" th:name="description" name="description" placeholder="What's it for?"/>
                             </div></li>
-                        <li><button class="payButton" onclick="location.href='/user/transfer'" name="payButton" type="submit"
-                             value="Pay">Pay</button></li>
+                        <li><button class="payButton" name="payButton" type="submit" value="Pay">Pay</button></li>
                     </ul>
                 </div>
             </form>
@@ -69,11 +68,11 @@
                     </tr>
                 </thead>
                 <tbody th:remove="all-but-first">
-<!--                    <tr th:each="">-->
-<!--                        <td th:text="">Test1</td>-->
-<!--                        <td th:text="">Test2</td>-->
-<!--                        <td th:text="">Test3</td>-->
-<!--                    </tr>-->
+                    <tr th:each="transactionDTO : ${transactionDTOList}">
+                        <td th:text="${transactionDTO.toUserEmail}">Test1</td>
+                        <td th:text="${transactionDTO.description}">Test2</td>
+                        <td th:text="${#numbers.formatDecimal('$' + transactionDTO.amount, 1, 2)}">$20.00</td>
+                    </tr>
                 <tr>
                     <td>TestA</td>
                     <td>TestB</td>

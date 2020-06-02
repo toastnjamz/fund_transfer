@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
     private RoleTypeService roleTypeService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private AccountService accountService;
-    private AccountTypeService accountTypeService;
     private CurrencyService currencyService;
 
 //    @Autowired
@@ -30,13 +29,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleTypeService roleTypeService,
-                           BCryptPasswordEncoder bCryptPasswordEncoder, AccountService accountService,
-                           AccountTypeService accountTypeService, CurrencyService currencyService) {
+                           BCryptPasswordEncoder bCryptPasswordEncoder, AccountService accountService, CurrencyService currencyService) {
         this.userRepository = userRepository;
         this.roleTypeService = roleTypeService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.accountService = accountService;
-        this.accountTypeService = accountTypeService;
         this.currencyService = currencyService;
     }
 
@@ -74,7 +71,7 @@ public class UserServiceImpl implements UserService {
         registeredUser.setIsActive(true);
 
         //Creating a new account for the user with $0.00 balance USD
-        Account account = new Account(registeredUser, accountTypeService.findAccountTypeByAccountType("Regular"),
+        Account account = new Account(registeredUser, accountService.findAccountTypeByAccountType("Regular"),
                 currencyService.findCurrencyByCurrencyLabel("USD"), new BigDecimal(0.00));
         accountService.createAccount(account);
         registeredUser.setAccount(account);
