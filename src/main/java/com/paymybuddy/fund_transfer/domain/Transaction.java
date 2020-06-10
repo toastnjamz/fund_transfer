@@ -5,6 +5,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
@@ -27,12 +28,6 @@ public class Transaction {
     @JoinColumn(name = "fk_from_account_id")
     private Account account;
 
-//    //Receiving account
-//    @NotNull
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "fk_to_account_id")
-//    private Account toAccount;
-
     //Receiving account id
     @Column(name = "to_account_id")
     private int toAccountId;
@@ -41,38 +36,60 @@ public class Transaction {
     @JoinColumn(name = "fk_transaction_currency_id")
     private Currency transactionCurrencyId;
 
+    //Associated bank account if transaction type is AddMoney or TransferToBank
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "fk_bank_account_id")
+    private BankAccount bankAccount;
+
     @Column(name = "created_on", nullable = false, updatable = false)
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
 
-    @NotEmpty(message="Enter a valid value.")
+    @NotNull
     private BigDecimal amount;
 
-    @NotEmpty(message="Enter a description.")
     private String description;
 
-    //TODO: should transaction fee be a field?
-
-//    //TODO: How to remove this, since @Transient doesn't work and TransactionRepository seems to need it?
-//    //Email field for TransactionRepository method findTransactionListBySendingUserEmail(String fromAccountUserEmail);
-//    private String sendingUserEmail;
-//
-//    //TODO: How to remove this, since @Transient doesn't work and TransactionRepository seems to need it?
-//    //Email field for TransactionRepository method findTransactionListByReceivingUserEmail(String toAccountUserEmail);
-//    private String receivingUserEmail;
-
+    private BigDecimal transactionFee;
 
     public Transaction() { };
 
+    //TODO: delete or modify
     public Transaction(TransactionType transactionType, Account account, int toAccountId, Currency transactionCurrencyId,
-                       @NotEmpty(message = "Enter a valid value.") BigDecimal amount, @NotEmpty(message = "Enter a description.") String description) {
+                       @NotNull String amount, String description) {
         this.transactionType = transactionType;
         this.account = account;
         this.toAccountId = toAccountId;
         this.transactionCurrencyId = transactionCurrencyId;
+        this.amount = new BigDecimal(amount);
+        this.description = description;
+    }
+
+    public Transaction(Account account, int toAccountId, @NotNull BigDecimal amount) {
+        this.account = account;
+        this.toAccountId = toAccountId;
+        this.amount = amount;
+    }
+
+    public Transaction(Account account, BankAccount bankAccount,
+                       @NotNull BigDecimal amount) {
+        this.account = account;
+        this.bankAccount = bankAccount;
+        this.amount = amount;
+    }
+
+    //TODO: delete or modify
+    public Transaction(TransactionType transactionType, Account account, int toAccountId, Currency transactionCurrencyId, BankAccount bankAccount, Date createdOn, @NotNull BigDecimal amount, String description, BigDecimal transactionFee) {
+        this.transactionType = transactionType;
+        this.account = account;
+        this.toAccountId = toAccountId;
+        this.transactionCurrencyId = transactionCurrencyId;
+        this.bankAccount = bankAccount;
+        this.createdOn = createdOn;
         this.amount = amount;
         this.description = description;
+        this.transactionFee = transactionFee;
     }
 
     public int getId() {
@@ -98,14 +115,6 @@ public class Transaction {
     public void setAccount(Account account) {
         this.account = account;
     }
-
-//    public Account getToAccount() {
-//        return toAccount;
-//    }
-//
-//    public void setToAccount(Account toAccount) {
-//        this.toAccount = toAccount;
-//    }
 
     public int getToAccountId() {
         return toAccountId;
@@ -145,6 +154,22 @@ public class Transaction {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public BigDecimal getTransactionFee() {
+        return transactionFee;
+    }
+
+    public void setTransactionFee(BigDecimal transactionFee) {
+        this.transactionFee = transactionFee;
+    }
+
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     @PrePersist

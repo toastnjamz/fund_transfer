@@ -48,12 +48,12 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
-    //Limited functionality exists for updating an account. For instance, you cannot switch owning users.
+    //Limited functionality exists for updating an account's balance due to transaction activity.
     @Override
     public void updateAccount(Account account) {
         Account updatedAccount = findAccountById(account.getId());
-        updatedAccount.setCurrency(account.getCurrency());
         updatedAccount.setBalance(account.getBalance());
+        accountRepository.save(updatedAccount);
     }
 
     @Override

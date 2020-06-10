@@ -30,7 +30,9 @@
             </div>
         </div>
         <div class="containerRow" id="payConnectionContainer">
-            <form name="form" th:action="@{/user/transfer}" method="post">
+<!--            <form name="form" method="post" th:action="@{/user/transfer}" th:object="${transactionDTO}">-->
+            <form name="form" method="post" th:action="@{/user/transfer}">
+<!--                <span class="text-danger" th:errors="*{amount}"></span>-->
                 <div id="containerItems">
                     <ul>
                         <li><select id="connectionsSelector" th:name="email" name="email" th:remove="all-but-first">
@@ -71,7 +73,8 @@
                     <tr th:each="transactionDTO : ${transactionDTOList}">
                         <td th:text="${transactionDTO.toUserEmail}">Test1</td>
                         <td th:text="${transactionDTO.description}">Test2</td>
-                        <td th:text="${#numbers.formatDecimal('$' + transactionDTO.amount, 1, 2)}">$20.00</td>
+<!--                        <td th:text="${#numbers.formatDecimal(transactionDTO.amount, 1, 2)}">$20.00</td>-->
+                        <td th:text="${'$' + transactionDTO.amount}">$20.00</td>
                     </tr>
                 <tr>
                     <td>TestA</td>

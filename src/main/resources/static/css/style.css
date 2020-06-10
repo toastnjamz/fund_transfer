@@ -143,6 +143,10 @@ li{
     margin: 20px auto;
 }
 
+#containerTitle {
+    margin-left: 162px;
+}
+
 .sectionTitle {
     font-size: 22px;
     font-weight: 500;
@@ -178,16 +182,24 @@ li{
     padding-bottom: 30px;
 }
 
-#amountAmountSelector {
-    align-self: flex-start;
+/*#bankAccountManager {
+    display: flex;
+    justify-content: space-around;
+}
+
+#bankAccountSelector {
+    display: flex;
+    justify-content: space-around;
+}*/
+
+.bankManagementContainer {
+    display: flex;
+    justify-content: space-around;
 }
 
 #emailSelector {
      align-self: flex-start;
  }
-
-#descriptionInput{
-}
 
 .payButton {
     background-color: #2eb82e;

@@ -60,20 +60,6 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping("/user/profile")
-    public ModelAndView profile() {
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.getUserFromAuth(auth);
-        if (user != null) {
-            modelAndView.setViewName("profile");
-        }
-        else {
-            modelAndView.setViewName("redirect:/login");
-        }
-        return modelAndView;
-    }
-
     @GetMapping("/user/addConnection")
     public ModelAndView getAddConnection(@ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
@@ -118,7 +104,6 @@ public class UserController {
 
     //TODO: Delete unused controller methods?
 
-    //User CRUD methods
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.findAllUsers();
@@ -152,7 +137,7 @@ public class UserController {
         response.setStatus(200);
     }
 
-    // RoleType CRUD Methods
+
     @GetMapping("/roleTypes")
     public List<RoleType> getAllRoleTypes() {
         return roleTypeService.findAllRoleTypes();

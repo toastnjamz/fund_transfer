@@ -35,6 +35,10 @@ public class Account {
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     private List<Transaction> transactionList;
 
+    //The user's linked bank account
+    @OneToOne(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private BankAccount bankAccount;
+
     public Account() { }
 
     public Account(User user, AccountType accountType, Currency currency, @NotNull BigDecimal balance) {
@@ -90,6 +94,14 @@ public class Account {
 
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
+    }
+
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     @Override

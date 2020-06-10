@@ -37,6 +37,8 @@ public class MyUserDetails implements UserDetails {
 
     public String getDisplayName() { return user.getDisplayName(); }
 
+    public String getAccountBalance() { return user.getAccount().getBalance().toString(); }
+
     @Override
     public boolean isAccountNonExpired() {
         return user.getIsActive();

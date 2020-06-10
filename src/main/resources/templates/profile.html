@@ -26,22 +26,42 @@
             <h2>User Name: <span th:text="${#authentication.getPrincipal().getDisplayName()}"/></h2>
             <h3>Email: <span th:text="${#authentication.getPrincipal().getUsername()}"/></h3>
         </div>
-        <div class="containerRow" id="containerSubRow">
-            <div class="sectionTitle">$999.99 in Pay My Buddy</div>
-            <div>
-                <button class=addConnectionButton onclick="location.href='/user/profile'" name="addConnectionButton" type="button"
-                        value="Transfer to Bank">Transfer to Bank</button>
-            </div>
+        <div class="containerRow" id="containerTitle">
+            <div class="sectionTitle">Manage My Money</div>
         </div>
-        <div class="containerRow" id="payConnectionContainer">
-            <div id="containerItems">
-                <ul>
-                    <li><div class="amountAmountSelector">
-                        <input type="text" id="amount" th:name="amount" name="amount" placeholder="How much?"/>
-                    </div></li>
-                    <li><button class="payButton" onclick="location.href='/user/profile'" name="payButton" type="submit"
-                                value="Add Funds">Add Funds</button></li>
-                </ul>
+        <form name="form" th:action="@{/user/transferToBank}" method="post">
+            <div class="containerRow" id="containerSubRow">
+                <h3>Pay My Buddy Balance: <span th:text="${'$' + #authentication.getPrincipal().getAccountBalance()}"></span></h3>
+                <div>
+                    <button class=addConnectionButton name="addConnectionButton" type="submit"
+                            value="Transfer to Bank">Transfer to Bank</button>
+                </div>
+            </div>
+        </form>
+        <div class = bankManagementContainer>
+            <div class="containerRow" id="payConnectionContainer">
+                <div id="containerItems">
+
+                    <form name="form" th:action="@{/user/addMoney}" method="post">
+                        <ul>
+                            <li><div class="amountAmountSelector">
+                                <input type="text" id="amount" th:name="amount" name="amount" placeholder="How much?"/>
+                            </div></li>
+                            <li><button class="payButton" name="payButton" type="submit"
+                                        value="Add Funds">Add Funds</button></li>
+                        </ul>
+                    </form>
+                    <form name="form" th:action="@{/user/addBankAccount}" method="post">
+                        <ul>
+                            <li>
+                                <input type="text" id="bankAccountNo" th:name="bankAccountNo" name="bankAccountNo"
+                                       placeholder="Enter a bank account number."/>
+                            </li>
+                            <li><button class="payButton" type="submit"
+                                        value="Link Bank Account">Link Bank Account</button></li>
+                        </ul>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

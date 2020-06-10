@@ -1,9 +1,6 @@
 package com.paymybuddy.fund_transfer.service;
 
-import com.paymybuddy.fund_transfer.domain.Account;
-import com.paymybuddy.fund_transfer.domain.Transaction;
-import com.paymybuddy.fund_transfer.domain.TransactionType;
-import com.paymybuddy.fund_transfer.domain.User;
+import com.paymybuddy.fund_transfer.domain.*;
 import com.paymybuddy.fund_transfer.repository.TransactionRepository;
 import com.paymybuddy.fund_transfer.repository.TransactionTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +15,21 @@ public class TransactionServiceImpl implements TransactionService {
 
     private TransactionRepository transactionRepository;
     private TransactionTypeRepository transactionTypeRepository;
+    private AccountService accountService;
+    private CurrencyService currencyService;
+    private BankAccountService bankAccountService;
+
+    //0.5% transaction fee to be collected from sending user for every regular transaction (from friend to friend)
+    private BigDecimal transactionFee = new BigDecimal(0.005);
 
     @Autowired
-    public TransactionServiceImpl(TransactionRepository transactionRepository, TransactionTypeRepository transactionTypeRepository) {
+    public TransactionServiceImpl(TransactionRepository transactionRepository, TransactionTypeRepository transactionTypeRepository,
+                                  AccountService accountService, CurrencyService currencyService, BankAccountService bankAccountService) {
         this.transactionRepository = transactionRepository;
         this.transactionTypeRepository = transactionTypeRepository;
+        this.accountService = accountService;
+        this.currencyService = currencyService;
+        this.bankAccountService = bankAccountService;
     }
 
     @Override
@@ -30,13 +37,8 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findTransactionListByAccount(account);
     }
 
-    //TODO
+    //TODO: test if it works
     @Override
-    public void createTransactionByTransferToFriend(User sendingUser, String receivingUserEmail, String description, String amount) {
-        Transaction newTransaction = new Transaction();
-    }
-
-    //TODO
     public boolean isInCurrencyFormat(String amount) {
         if (amount == null) {
             return false;
@@ -50,6 +52,102 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return true;
     }
+
+    public boolean transactionValidator(String transactionType, String sendingUserEmail, BigDecimal transactionAmount) {
+        boolean validation = false;
+        BigDecimal sendersBalance = accountService.findAccountByUserEmail(sendingUserEmail).getBalance();
+        BigDecimal sendersBalanceMinusTransactionAmount = sendersBalance.subtract(calculateTransactionAmountForSender(transactionAmount));
+
+        if (transactionType == "AddMoney" && transactionAmount.intValue() > 0) {
+            validation = true;
+        }
+        else if (transactionType == "TransferToBank" && sendersBalance.intValue() >= 0) {
+            validation = true;
+        }
+        else if (transactionType == "Regular" && sendersBalanceMinusTransactionAmount.intValue() >= 0) {
+            validation = true;
+            }
+        return validation;
+    }
+
+    //Calculates transaction total for sender: amount * (1 + transaction fee)
+    public BigDecimal calculateTransactionAmountForSender(BigDecimal transactionAmount) {
+        BigDecimal feeFactor = (new BigDecimal("1").add(transactionFee));
+        return transactionAmount.multiply(feeFactor).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    }
+
+    @Override
+    public void createTransactionByTransferToFriend(User sendingUser, String receivingUserEmail, String amount, String description) {
+        BigDecimal transactionAmount = new BigDecimal(amount);
+        if (transactionValidator("Regular", sendingUser.getEmail(), transactionAmount)) {
+            Account sendingAccount = accountService.findAccountByUserEmail(sendingUser.getEmail());
+            BigDecimal sendingAccountBalanceBefore = sendingAccount.getBalance();
+            Account receivingAccount = accountService.findAccountByUserEmail(receivingUserEmail);
+            BigDecimal receivingAccountBalanceBefore = receivingAccount.getBalance();
+
+            Transaction newTransaction = new Transaction(sendingAccount, receivingAccount.getId(), transactionAmount);
+            newTransaction.setTransactionType(transactionTypeRepository.findTransactionTypeByTransactionType("Regular"));
+            newTransaction.setTransactionCurrencyId(currencyService.findCurrencyByCurrencyLabel("USD"));
+            newTransaction.setDescription(description);
+            newTransaction.setTransactionFee(transactionAmount.multiply(transactionFee));
+            transactionRepository.save(newTransaction);
+
+            BigDecimal amountToSubtractFromSender = calculateTransactionAmountForSender(transactionAmount);
+            sendingAccount.setBalance(sendingAccountBalanceBefore.subtract(amountToSubtractFromSender));
+            accountService.updateAccount(sendingAccount);
+            receivingAccount.setBalance(receivingAccountBalanceBefore.add(transactionAmount));
+            accountService.updateAccount(receivingAccount);
+        }
+    }
+
+    //TODO test
+    @Override
+    public void createTransactionByAddMoney(User sendingUser, String amount) {
+        Account sendingAccount = accountService.findAccountByUserEmail(sendingUser.getEmail());
+        if (bankAccountService.findBankAccountByAccount(sendingAccount) != null) {
+//        if (sendingAccount.getBankAccount() != null) {
+            BigDecimal transactionAmount = new BigDecimal(amount);
+            if (transactionValidator("AddMoney", sendingUser.getEmail(), transactionAmount)) {
+                BigDecimal sendingAccountBalanceBefore = sendingAccount.getBalance();
+                BankAccount sendingAccountBankAccount = sendingAccount.getBankAccount();
+
+                Transaction newTransaction = new Transaction(sendingAccount, sendingAccountBankAccount, transactionAmount);
+                newTransaction.setTransactionType(transactionTypeRepository.findTransactionTypeByTransactionType("AddMoney"));
+                newTransaction.setTransactionCurrencyId(currencyService.findCurrencyByCurrencyLabel("USD"));
+                newTransaction.setDescription("Adding funds from bank.");
+                newTransaction.setTransactionFee(new BigDecimal(0.0));
+                transactionRepository.save(newTransaction);
+
+                sendingAccount.setBalance(sendingAccountBalanceBefore.add(transactionAmount));
+                accountService.updateAccount(sendingAccount);
+            }
+        }
+    }
+
+    //TODO fix
+    @Override
+    public void createTransactionByTransferToBank(User sendingUser) {
+        Account sendingAccount = accountService.findAccountByUserEmail(sendingUser.getEmail());
+        if (bankAccountService.findBankAccountByAccount(sendingAccount) != null) {
+//        if (sendingAccount.getBankAccount() != null) {
+            BigDecimal sendingAccountBalanceBefore = sendingAccount.getBalance();
+            if (transactionValidator("TransferToBank", sendingUser.getEmail(), sendingAccountBalanceBefore)) {
+                BankAccount sendingAccountBankAccount = sendingAccount.getBankAccount();
+
+                Transaction newTransaction = new Transaction(sendingAccount, sendingAccountBankAccount, sendingAccountBalanceBefore);
+                newTransaction.setTransactionType(transactionTypeRepository.findTransactionTypeByTransactionType("TransferToBank"));
+                newTransaction.setTransactionCurrencyId(currencyService.findCurrencyByCurrencyLabel("USD"));
+                newTransaction.setDescription("Transferring funds back to bank.");
+                newTransaction.setTransactionFee(new BigDecimal(0.0));
+                transactionRepository.save(newTransaction);
+
+                sendingAccount.setBalance(new BigDecimal(0.0));
+                accountService.updateAccount(sendingAccount);
+            }
+        }
+    }
+
+
 
 
 
@@ -70,16 +168,6 @@ public class TransactionServiceImpl implements TransactionService {
         return null;
     }
 
-//    @Override
-//    public List<Transaction> findTransactionListBySendingUserEmail(String sendingUserEmail) {
-//        return transactionRepository.findTransactionListBySendingUserEmail(sendingUserEmail);
-//    }
-//
-//    @Override
-//    public List<Transaction> findTransactionListByReceivingUserEmail(String receivingUserEmail) {
-//        return transactionRepository.findTransactionListByReceivingUserEmail(receivingUserEmail);
-//    }
-
     @Override
     public Transaction createTransaction(Transaction transaction) {
         return transactionRepository.save(transaction);
@@ -98,8 +186,6 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteTransaction(int id) {
         transactionRepository.deleteById(id);
     }
-
-
 
     @Override
     public List<TransactionType> findAllTransactionTypes() {
