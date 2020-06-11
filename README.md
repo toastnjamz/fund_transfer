@@ -1,5 +1,5 @@
 # fund_transfer
 
-A three-tier app, Pay My Buddy, that allows friends to transfer money between friends.
+A three-tier app that allows friends to easily transfer money between each other.
 
 ![](Entity%20Relationship%20Diagram.png)
