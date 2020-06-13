@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ConnectionServiceImpl implements ConnectionService {
@@ -46,37 +45,5 @@ public class ConnectionServiceImpl implements ConnectionService {
             Connection newConnection = new Connection(owningUser, connectedUser.getId());
             connectionRepository.save(newConnection);
         }
-    }
-
-
-
-
-
-    //TODO: Remove unused service methods?
-    @Override
-    public Connection findConnectionById(int id) {
-        Optional<Connection> connectionOptional = connectionRepository.findById(id);
-        if (connectionOptional.isPresent()) {
-            Connection connection = connectionOptional.get();
-            return connection;
-        }
-        return null;
-    }
-
-    @Override
-    public Connection createConnection(Connection connection) {
-        return connectionRepository.save(connection);
-    }
-
-//    @Override
-//    public void updateConnection(Connection connection) {
-//        Connection updatedConnection = findConnectionById(connection.getId());
-//        updatedConnection.setOwningUser(connection.getOwningUser());
-//        updatedConnection.setConnectedUser(connection.getConnectedUser());
-//    }
-
-    @Override
-    public void deleteConnection(int id) {
-        connectionRepository.deleteById(id);
     }
 }

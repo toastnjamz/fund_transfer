@@ -1,7 +1,5 @@
 package com.paymybuddy.fund_transfer.domain;
 
-import java.math.BigDecimal;
-
 public class TransactionDTO {
 
     private String toUserEmail;

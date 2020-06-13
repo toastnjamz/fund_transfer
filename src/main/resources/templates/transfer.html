@@ -73,7 +73,6 @@
                     <tr th:each="transactionDTO : ${transactionDTOList}">
                         <td th:text="${transactionDTO.toUserEmail}">Test1</td>
                         <td th:text="${transactionDTO.description}">Test2</td>
-<!--                        <td th:text="${#numbers.formatDecimal(transactionDTO.amount, 1, 2)}">$20.00</td>-->
                         <td th:text="${'$' + transactionDTO.amount}">$20.00</td>
                     </tr>
                 <tr>
@@ -102,7 +101,6 @@
             </div>
         </div>
     </div>
-    <div class="footer"></div>
 </div>
 </body>
 </html>

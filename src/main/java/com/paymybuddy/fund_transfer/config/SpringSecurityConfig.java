@@ -1,9 +1,7 @@
 package com.paymybuddy.fund_transfer.config;
 
-import com.paymybuddy.fund_transfer.domain.MyUserDetails;
 import com.paymybuddy.fund_transfer.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,8 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
@@ -23,7 +19,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-//    @Qualifier("myUserDetailsService")
     private MyUserDetailsService userDetailsService;
 
     @Override
@@ -55,14 +50,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login?error=true")
                 .and()
                 .logout()
-                .logoutSuccessUrl("/login?logout=true");
-
-//        http.
-//                sessionManagement()
-//                .invalidSessionUrl("/login")
-//                .maximumSessions(1)
-//                .sessionRegistry(sessionRegistry())
-//                .expiredUrl("/login");
+                .logoutSuccessUrl("/login?logout=true")
+                .and()
+                .exceptionHandling().accessDeniedPage("/403");
     }
 
     @Override
@@ -76,9 +66,4 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    public SessionRegistry sessionRegistry() {
-//        return new SessionRegistryImpl();
-//    }
 }

@@ -21,7 +21,7 @@ public class BankAccount {
     @JoinColumn(name = "fk_account_id")
     private Account account;
 
-    //International bank account number entered by the user and used for identifying their linked bank account
+    //Bank account number entered by the user and used for identifying their linked bank account
     @NotNull
     private String bankAccountNo;
 

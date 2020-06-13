@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../static/css/style.css" type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Transaction Log</title>
+</head>
+<body>
+<div class="mainContainer">
+    <div class="navbar">
+        <ul>
+            <li id="companyIcon"><img src="../static/images/icon.png" th:src="@{/images/icon.png}"
+                                      alt="Company Icon"></li></a>
+            <li><a href="/user/home">Home</a></li>
+            <li><a class="selected" href="/admin/transactions">Transaction Log</a></li>
+            <li><a href="/user/transfer">Transfer</a></li>
+            <li><a href="/user/profile">Profile</a></li>
+            <li><a href="/user/contact">Contact</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+    <div id="breadcrumb">
+        <div id="pageLocationTitle">Home / <span style="color:grey">Transaction Log</span></div>
+    </div>
+    <div class="topContainer">
+        <div class="containerRow" id="containerSubRow">
+            <div class="sectionTitle">Connection-To-Connection Transaction Log</div>
+        </div>
+    </div>
+    <div class="bottomContainer">
+        <div class="containerRow" id="transactionsTable">
+            <table style="width=100%">
+                <thead>
+                <tr>
+                    <th>Sender</th>
+                    <th>Receiver</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Fee</th>
+                    <th>Timestamp</th>
+                </tr>
+                </thead>
+                <tbody th:remove="all-but-first">
+                <tr th:each="transactionOrderDTO : ${transactionOrderDTOList}">
+                    <td th:text="${transactionOrderDTO.fromUserEmail}">TestEmailA@gmail.com</td>
+                    <td th:text="${transactionOrderDTO.toUserEmail}">TestEmailA@gmail.com</td>
+                    <td th:text="${transactionOrderDTO.description}">TestEmailA@gmail.com</td>
+                    <td th:text="${'$' + transactionOrderDTO.amount}">$20.00</td>
+                    <td th:text="${'$' + transactionOrderDTO.fee}">$.10</td>
+                    <td th:text="${transactionOrderDTO.date}">6/11/2020</td>
+                </tr>
+                <tr>
+                    <td>TestEmailA@gmail.com</td>
+                    <td>TestEmailA@gmail.com</td>
+                    <td>TestEmailA@gmail.com</td>
+                    <td>$20.00</td>
+                    <td>$.10</td>
+                    <td>6/11/2020</td>
+                </tr>
+                <tr>
+                    <td>TestEmailA@gmail.com</td>
+                    <td>TestEmailA@gmail.com</td>
+                    <td>TestEmailA@gmail.com</td>
+                    <td>$20.00</td>
+                    <td>$.10</td>
+                    <td>6/11/2020</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="containerRow" id="paginationElement">
+            <div class="pagination">
+                <a href="#">&laquo;</a>
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">&raquo;</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

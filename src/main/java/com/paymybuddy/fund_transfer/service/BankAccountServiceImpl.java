@@ -22,7 +22,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         return bankAccountRepository.findBankAccountByAccount(account);
     }
 
-    //Users can only link one bank account to their PayMyBuddy account for this version of the app (V1)
+    //Users can only link one bank account at a time to their PayMyBuddy account for this version of the app (V1)
     @Override
     public BankAccount createBankAccount(User user, String bankAccountNo) {
         Account userAccount = user.getAccount();

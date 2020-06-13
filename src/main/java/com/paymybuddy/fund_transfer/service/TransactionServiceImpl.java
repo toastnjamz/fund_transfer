@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -37,43 +37,11 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.findTransactionListByAccount(account);
     }
 
-    //TODO: test if it works
     @Override
-    public boolean isInCurrencyFormat(String amount) {
-        if (amount == null) {
-            return false;
-        }
-        try {
-            double d = Double.parseDouble(amount);
-            int i = Integer.parseInt(amount);
-        }
-        catch (NumberFormatException nfe) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean transactionValidator(String transactionType, String sendingUserEmail, BigDecimal transactionAmount) {
-        boolean validation = false;
-        BigDecimal sendersBalance = accountService.findAccountByUserEmail(sendingUserEmail).getBalance();
-        BigDecimal sendersBalanceMinusTransactionAmount = sendersBalance.subtract(calculateTransactionAmountForSender(transactionAmount));
-
-        if (transactionType == "AddMoney" && transactionAmount.intValue() > 0) {
-            validation = true;
-        }
-        else if (transactionType == "TransferToBank" && sendersBalance.intValue() >= 0) {
-            validation = true;
-        }
-        else if (transactionType == "Regular" && sendersBalanceMinusTransactionAmount.intValue() >= 0) {
-            validation = true;
-            }
-        return validation;
-    }
-
-    //Calculates transaction total for sender: amount * (1 + transaction fee)
-    public BigDecimal calculateTransactionAmountForSender(BigDecimal transactionAmount) {
-        BigDecimal feeFactor = (new BigDecimal("1").add(transactionFee));
-        return transactionAmount.multiply(feeFactor).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    public List<Transaction> findTransactionListByTransactionType(String transactionType) {
+        List<Transaction> transactionList = transactionRepository.findAll().stream()
+            .filter(t -> t.getTransactionType().getTransactionType().equals(transactionType)).collect(Collectors.toList());
+        return transactionList;
     }
 
     @Override
@@ -147,67 +115,42 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
-
-
-
-
-    //TODO: Remove if not using
-
+    //TODO: test if it works
     @Override
-    public List<Transaction> findAllTransactions() {
-        return transactionRepository.findAll();
-    }
-
-    @Override
-    public Transaction findTransactionById(int id) {
-        Optional<Transaction> transactionOptional = transactionRepository.findById(id);
-        if (transactionOptional.isPresent()) {
-            Transaction transaction = transactionOptional.get();
-            return transaction;
+    public boolean isInCurrencyFormat(String amount) {
+        if (amount == null) {
+            return false;
         }
-        return null;
+        try {
+            double d = Double.parseDouble(amount);
+            int i = Integer.parseInt(amount);
+        }
+        catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
-    @Override
-    public Transaction createTransaction(Transaction transaction) {
-        return transactionRepository.save(transaction);
+    public boolean transactionValidator(String transactionType, String sendingUserEmail, BigDecimal transactionAmount) {
+        boolean validation = false;
+        BigDecimal sendersBalance = accountService.findAccountByUserEmail(sendingUserEmail).getBalance();
+        BigDecimal sendersBalanceMinusTransactionAmount = sendersBalance.subtract(calculateTransactionAmountForSender(transactionAmount));
+
+        if (transactionType == "AddMoney" && transactionAmount.intValue() > 0) {
+            validation = true;
+        }
+        else if (transactionType == "TransferToBank" && sendersBalance.intValue() >= 0) {
+            validation = true;
+        }
+        else if (transactionType == "Regular" && sendersBalanceMinusTransactionAmount.intValue() >= 0) {
+            validation = true;
+        }
+        return validation;
     }
 
-    //Limited functionality exists for updating a transaction.
-    @Override
-    public void updateTransaction(Transaction transaction) {
-        Transaction updatedTransaction = findTransactionById(transaction.getId());
-        updatedTransaction.setAmount(transaction.getAmount());
-        updatedTransaction.setTransactionCurrencyId(transaction.getTransactionCurrencyId());
-        updatedTransaction.setDescription(transaction.getDescription());
-    }
-
-    @Override
-    public void deleteTransaction(int id) {
-        transactionRepository.deleteById(id);
-    }
-
-    @Override
-    public List<TransactionType> findAllTransactionTypes() {
-        return transactionTypeRepository.findAll();
-    }
-
-    @Override
-    public TransactionType findTransactionTypeById(int id) {
-        return null;
-    }
-
-    @Override
-    public TransactionType createTransactionType(TransactionType transactionType) {
-        return transactionTypeRepository.save(transactionType);
-    }
-
-    @Override
-    public void updateTransactionType(TransactionType transactionType) {
-    }
-
-    @Override
-    public void deleteTransactionType(int id) {
-        transactionTypeRepository.deleteById(id);
+    //Calculates transaction total for sender: amount * (1 + transaction fee)
+    public BigDecimal calculateTransactionAmountForSender(BigDecimal transactionAmount) {
+        BigDecimal feeFactor = (new BigDecimal("1").add(transactionFee));
+        return transactionAmount.multiply(feeFactor).setScale(2, BigDecimal.ROUND_HALF_EVEN);
     }
 }

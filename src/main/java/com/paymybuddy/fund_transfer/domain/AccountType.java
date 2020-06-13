@@ -1,10 +1,8 @@
 package com.paymybuddy.fund_transfer.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,15 +11,10 @@ import java.util.Objects;
 public class AccountType {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //Account types: 1 - Regular, 2 - Bank
+    //Account types: 1 - Regular
     private String accountType;
-
-//    @OneToMany(mappedBy = "accountType")
-//    @JsonManagedReference
-//    private List<Account> accountList;
 
     public AccountType() { }
 
@@ -44,14 +37,6 @@ public class AccountType {
     public void setAccountType(String accountType) {
         this.accountType = accountType;
     }
-
-//    public List<Account> getAccountList() {
-//        return accountList;
-//    }
-//
-//    public void setAccountList(List<Account> accountList) {
-//        this.accountList = accountList;
-//    }
 
     @Override
     public boolean equals(Object o) {

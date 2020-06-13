@@ -1,10 +1,8 @@
 package com.paymybuddy.fund_transfer.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,17 +11,12 @@ import java.util.Objects;
 public class Currency {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     //Currency types - 1: USD for US Dollars
     private String currencyLabel;
 
     private String currencyDescription;
-
-//    @OneToMany(mappedBy = "currency")
-//    @JsonManagedReference
-//    private List<Account> accountList;
 
     public Currency() { }
 
@@ -55,14 +48,6 @@ public class Currency {
     public void setCurrencyDescription(String currencyDescription) {
         this.currencyDescription = currencyDescription;
     }
-
-//    public List<Account> getAccountList() {
-//        return accountList;
-//    }
-//
-//    public void setAccountList(List<Account> accountList) {
-//        this.accountList = accountList;
-//    }
 
     @Override
     public boolean equals(Object o) {

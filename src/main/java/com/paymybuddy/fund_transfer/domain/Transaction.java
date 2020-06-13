@@ -4,7 +4,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -55,17 +54,6 @@ public class Transaction {
 
     public Transaction() { };
 
-    //TODO: delete or modify
-    public Transaction(TransactionType transactionType, Account account, int toAccountId, Currency transactionCurrencyId,
-                       @NotNull String amount, String description) {
-        this.transactionType = transactionType;
-        this.account = account;
-        this.toAccountId = toAccountId;
-        this.transactionCurrencyId = transactionCurrencyId;
-        this.amount = new BigDecimal(amount);
-        this.description = description;
-    }
-
     public Transaction(Account account, int toAccountId, @NotNull BigDecimal amount) {
         this.account = account;
         this.toAccountId = toAccountId;
@@ -77,19 +65,6 @@ public class Transaction {
         this.account = account;
         this.bankAccount = bankAccount;
         this.amount = amount;
-    }
-
-    //TODO: delete or modify
-    public Transaction(TransactionType transactionType, Account account, int toAccountId, Currency transactionCurrencyId, BankAccount bankAccount, Date createdOn, @NotNull BigDecimal amount, String description, BigDecimal transactionFee) {
-        this.transactionType = transactionType;
-        this.account = account;
-        this.toAccountId = toAccountId;
-        this.transactionCurrencyId = transactionCurrencyId;
-        this.bankAccount = bankAccount;
-        this.createdOn = createdOn;
-        this.amount = amount;
-        this.description = description;
-        this.transactionFee = transactionFee;
     }
 
     public int getId() {

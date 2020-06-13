@@ -2,6 +2,7 @@ package com.paymybuddy.fund_transfer.controller;
 
 import com.paymybuddy.fund_transfer.domain.User;
 import com.paymybuddy.fund_transfer.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ public class HomeController {
 
     private UserService userService;
 
+    @Autowired
     public HomeController(UserService userService) {
         this.userService = userService;
     }
