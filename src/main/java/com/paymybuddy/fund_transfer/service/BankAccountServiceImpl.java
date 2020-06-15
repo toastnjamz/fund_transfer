@@ -28,7 +28,8 @@ public class BankAccountServiceImpl implements BankAccountService {
         Account userAccount = user.getAccount();
         if (userAccount.getBankAccount() == null) {
             BankAccount newBankAccount = new BankAccount(userAccount, bankAccountNo);
-            return bankAccountRepository.save(newBankAccount);
+            bankAccountRepository.save(newBankAccount);
+            return newBankAccount;
         }
         return null;
     }

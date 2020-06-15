@@ -25,8 +25,8 @@ public class AccountServiceImpl implements AccountService {
     public Account findAccountById(int id) {
         Optional<Account> accountOptional = accountRepository.findById(id);
         if (accountOptional.isPresent()) {
-            Account roleType = accountOptional.get();
-            return roleType;
+            Account account = accountOptional.get();
+            return account;
         }
         return null;
     }
