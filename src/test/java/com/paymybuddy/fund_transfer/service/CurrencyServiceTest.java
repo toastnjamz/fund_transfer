@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CurrencyServiceImplTest {
+public class CurrencyServiceTest {
 
     @Mock
     private CurrencyRepository currencyRepositoryMock;

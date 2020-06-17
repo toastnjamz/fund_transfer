@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RoleTypeServiceImplTest {
+public class RoleTypeServiceTest {
 
     @Mock
     private RoleTypeRepository roleTypeRepositoryMock;

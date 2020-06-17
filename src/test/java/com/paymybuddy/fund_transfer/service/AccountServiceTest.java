@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AccountServiceImplTest {
+public class AccountServiceTest {
 
     @Mock
     private AccountRepository accountRepositoryMock;

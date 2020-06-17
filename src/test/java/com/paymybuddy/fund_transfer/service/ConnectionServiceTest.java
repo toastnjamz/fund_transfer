@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ConnectionServiceImplTest {
+public class ConnectionServiceTest {
 
     @Mock
     private ConnectionRepository connectionRepositoryMock;

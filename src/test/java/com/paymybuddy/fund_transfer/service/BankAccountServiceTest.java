@@ -18,7 +18,7 @@ import static org.mockito.Mockito.times;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class BankAccountServiceImplTest {
+public class BankAccountServiceTest {
 
     @Mock
     private BankAccountRepository bankAccountRepositoryMock;

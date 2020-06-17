@@ -40,6 +40,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserById(int id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user;
+        }
+        return null;
+    }
+
+    @Override
     public User findUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
@@ -60,15 +70,5 @@ public class UserServiceImpl implements UserService {
         accountService.createAccount(account);
         registeredUser.setAccount(account);
         return userRepository.save(registeredUser);
-    }
-
-    @Override
-    public User findUserById(int id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return user;
-        }
-        return null;
     }
 }

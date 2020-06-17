@@ -68,12 +68,10 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
-    //TODO test
     @Override
     public void createTransactionByAddMoney(User sendingUser, String amount) {
         Account sendingAccount = accountService.findAccountByUserEmail(sendingUser.getEmail());
         if (bankAccountService.findBankAccountByAccount(sendingAccount) != null) {
-//        if (sendingAccount.getBankAccount() != null) {
             BigDecimal transactionAmount = new BigDecimal(amount);
             if (transactionValidator("AddMoney", sendingUser.getEmail(), transactionAmount)) {
                 BigDecimal sendingAccountBalanceBefore = sendingAccount.getBalance();
@@ -92,12 +90,10 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
-    //TODO fix
     @Override
     public void createTransactionByTransferToBank(User sendingUser) {
         Account sendingAccount = accountService.findAccountByUserEmail(sendingUser.getEmail());
         if (bankAccountService.findBankAccountByAccount(sendingAccount) != null) {
-//        if (sendingAccount.getBankAccount() != null) {
             BigDecimal sendingAccountBalanceBefore = sendingAccount.getBalance();
             if (transactionValidator("TransferToBank", sendingUser.getEmail(), sendingAccountBalanceBefore)) {
                 BankAccount sendingAccountBankAccount = sendingAccount.getBankAccount();
@@ -115,7 +111,6 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
-    //TODO: test if it works
     @Override
     public boolean isInCurrencyFormat(String amount) {
         if (amount == null) {
@@ -123,7 +118,6 @@ public class TransactionServiceImpl implements TransactionService {
         }
         try {
             double d = Double.parseDouble(amount);
-            int i = Integer.parseInt(amount);
         }
         catch (NumberFormatException nfe) {
             return false;
@@ -139,7 +133,7 @@ public class TransactionServiceImpl implements TransactionService {
         if (transactionType == "AddMoney" && transactionAmount.intValue() > 0) {
             validation = true;
         }
-        else if (transactionType == "TransferToBank" && sendersBalance.intValue() >= 0) {
+        else if (transactionType == "TransferToBank" && sendersBalance.intValue() > 0) {
             validation = true;
         }
         else if (transactionType == "Regular" && sendersBalanceMinusTransactionAmount.intValue() >= 0) {
