@@ -1,6 +1,7 @@
 package com.paymybuddy.fund_transfer.service;
 
 import com.paymybuddy.fund_transfer.domain.Account;
+import com.paymybuddy.fund_transfer.domain.MyUserDetails;
 import com.paymybuddy.fund_transfer.domain.User;
 import com.paymybuddy.fund_transfer.repository.UserRepository;
 import org.junit.Test;
@@ -78,7 +79,9 @@ public class UserServiceTest {
         //TODO: What type should this be returning?
 //        UsernamePasswordAuthenticationToken principal = new UsernamePasswordAuthenticationToken("test@test.com", "1234");
 //        when(auth.getPrincipal()).thenReturn(principal);
-        when(auth.getPrincipal()).thenReturn("test@test.com");
+//        when(auth.getPrincipal()).thenReturn("test@test.com");
+        //TODO: getPrinciple() needs when statement
+        when(((MyUserDetails)(auth.getPrincipal())).getUsername()).thenReturn(user.getEmail());
 
         when(auth.getName()).thenReturn(user.getEmail());
         when(userRepositoryMock.findUserByEmail(user.getEmail())).thenReturn(user);
@@ -158,15 +161,4 @@ public class UserServiceTest {
         //assert
         assertEquals(user.getEmail(), result.getEmail());
     }
-
-    //TODO: add
-//    @Test
-//    public void createUserByRegistration_userDoesNotExist_nullReturned() {
-//        //arrange
-//
-//        //act
-//
-//        //assert
-//
-//    }
 }

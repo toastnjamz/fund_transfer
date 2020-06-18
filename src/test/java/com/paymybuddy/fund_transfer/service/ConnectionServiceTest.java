@@ -4,8 +4,6 @@ import com.paymybuddy.fund_transfer.domain.Connection;
 import com.paymybuddy.fund_transfer.domain.User;
 import com.paymybuddy.fund_transfer.repository.ConnectionRepository;
 import org.junit.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullSource;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,7 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -70,22 +67,6 @@ public class ConnectionServiceTest {
         //assert
         assertEquals(1, result.size());
     }
-
-    //TODO: figure out how to test null input
-//    @ParameterizedTest
-//    @NullSource
-//    public void findConnectedUsersByOwningUser_userDoesNotExist_nullReturned(User user) {
-//        //arrange
-////        User user1;
-////
-////        when(userServiceImplMock.findUserById(user1.getId())).thenReturn(null);
-//
-//        //act
-//        List<User> result = connectionServiceImpl.findConnectedUsersByOwningUser(user);
-//
-//        //assert
-//        assertNull(result);
-//    }
 
     @Test
     public void createConnection_userExists_connectionSaved() {

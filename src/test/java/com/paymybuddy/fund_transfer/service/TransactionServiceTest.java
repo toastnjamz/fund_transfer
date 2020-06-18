@@ -84,16 +84,6 @@ public class TransactionServiceTest {
         assertEquals(1, result.size());
     }
 
-    //TODO: figure out how to pass in a null account or remove test
-    @Test
-    public void findTransactionListByAccount_accountDoesNotExist_nullReturned() {
-        //arrange
-
-        //act
-
-        //assert
-    }
-
     @Test
     public void findTransactionListByTransactionType_transactionTypeExists_transactionListReturned() {
         //arrange

@@ -22,7 +22,14 @@ public class HomeController {
     @GetMapping("/user/home")
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("home");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserFromAuth(auth);
+        if (user != null) {
+            modelAndView.setViewName("home");
+        }
+        else {
+            modelAndView.setViewName("redirect:/login");
+        }
         return modelAndView;
     }
 
