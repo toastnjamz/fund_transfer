@@ -26,6 +26,7 @@ public class HomeController {
         User user = userService.getUserFromAuth(auth);
         if (user != null) {
             modelAndView.setViewName("home");
+            modelAndView.addObject("user", user);
         }
         else {
             modelAndView.setViewName("redirect:/login");

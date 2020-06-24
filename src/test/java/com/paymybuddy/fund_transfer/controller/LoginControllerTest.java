@@ -28,7 +28,7 @@ public class LoginControllerTest {
     }
 
     @Test
-    public void login() throws Exception {
+    public void login_urlValid_statusIsSuccessful() throws Exception {
         mockMvc.perform(get("/login")).andExpect(status().is2xxSuccessful());
     }
 }

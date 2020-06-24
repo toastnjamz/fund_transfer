@@ -1,7 +1,8 @@
 package com.paymybuddy.fund_transfer.service;
 
-import com.paymybuddy.fund_transfer.domain.Account;
+import com.paymybuddy.fund_transfer.controller.SpringSecurityAuthTestConfig;
 import com.paymybuddy.fund_transfer.domain.MyUserDetails;
+import com.paymybuddy.fund_transfer.domain.RoleType;
 import com.paymybuddy.fund_transfer.domain.User;
 import com.paymybuddy.fund_transfer.repository.UserRepository;
 import org.junit.Test;
@@ -9,7 +10,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +22,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = SpringSecurityAuthTestConfig.class)
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
@@ -41,49 +44,21 @@ public class UserServiceTest {
     @InjectMocks
     private UserServiceImpl userServiceImpl;
 
-    //TODO: fix, then add not logged in use case
-//    @Test
-//    public void getUserFromAuth_userLoggedIn_userReturned() {
-//        //arrange
-//        User user = new User();
-//        user.setEmail("test@test.com");
-//
-//        Authentication auth = mock(Authentication.class);
-//        auth.setAuthenticated(true);
-//
-//        when(auth.getPrincipal()).thenReturn()
-//        when(auth.getName()).thenReturn(user.getEmail());
-//        when(userRepositoryMock.findUserByEmail(user.getEmail())).thenReturn(user);
-//
-//        //act
-//        User result = userServiceImpl.getUserFromAuth(auth);
-//
-//        //assert
-//        assertNotNull(result);
-//    }
-
-    //TODO: fix
     @Test
-//    @WithMockUser(username = "test@test.com", roles = { "Regular" })
     public void getUserFromAuth_userLoggedIn_userReturned() {
         //arrange
         User user = new User();
-        user.setEmail("test@test.com");
+        user.setEmail("regular@test.com");
         user.setPassword("1234");
+        RoleType regularUserRole = new RoleType("Regular");
+        MyUserDetails myUserDetailsMock = new MyUserDetails(user, regularUserRole);
 
         Authentication auth = mock(Authentication.class);
         SecurityContext securityContext = mock(SecurityContext.class);
-        when(securityContext.getAuthentication()).thenReturn(auth);
         SecurityContextHolder.setContext(securityContext);
 
-        //TODO: What type should this be returning?
-//        UsernamePasswordAuthenticationToken principal = new UsernamePasswordAuthenticationToken("test@test.com", "1234");
-//        when(auth.getPrincipal()).thenReturn(principal);
-//        when(auth.getPrincipal()).thenReturn("test@test.com");
-        //TODO: getPrinciple() needs when statement
-        when(((MyUserDetails)(auth.getPrincipal())).getUsername()).thenReturn(user.getEmail());
+        when(((MyUserDetails)(auth.getPrincipal()))).thenReturn(myUserDetailsMock);
 
-        when(auth.getName()).thenReturn(user.getEmail());
         when(userRepositoryMock.findUserByEmail(user.getEmail())).thenReturn(user);
 
         //act
@@ -91,6 +66,20 @@ public class UserServiceTest {
 
         //assert
         assertNotNull(result);
+    }
+
+    @Test
+    public void getUserFromAuth_userNotLoggedIn_nullReturned() {
+        //arrange
+        AnonymousAuthenticationToken authentication = mock(AnonymousAuthenticationToken.class);
+        SecurityContext securityContext = mock(SecurityContext.class);
+        SecurityContextHolder.setContext(securityContext);
+
+        //act
+        User result = userServiceImpl.getUserFromAuth(authentication);
+
+        //assert
+        assertNull(result);
     }
 
     @Test

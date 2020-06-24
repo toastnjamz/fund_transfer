@@ -72,6 +72,7 @@ public class ConnectionServiceTest {
     public void createConnection_userExists_connectionSaved() {
         //arrange
         User user1 = new User();
+        user1.setEmail("user1@test.com");
         User user2 = new User();
         user2.setEmail("user2@test.com");
 
@@ -89,16 +90,29 @@ public class ConnectionServiceTest {
     public void createConnection_userDoesNotExist_connectionNotSaved() {
         //arrange
         User user1 = new User();
-        User user2 = new User();
-        user2.setEmail("user2@test.com");
+        user1.setEmail("user1@test.com");
+        String user2Email = "user2@test.com";
 
-        when(connectionRepositoryMock.findConnectionListByUser(user1)).thenReturn(new ArrayList<>());
-        when(userServiceImplMock.findUserByEmail(user2.getEmail())).thenReturn(user2);
+        when(userServiceImplMock.findUserByEmail(user2Email)).thenReturn(null);
 
         //act
-        connectionServiceImpl.createConnection(user1, user2.getEmail());
+        connectionServiceImpl.createConnection(user1, user2Email);
 
         //assert
-        verify(connectionRepositoryMock, times(1)).save(any(Connection.class));
+        verify(connectionRepositoryMock, times(0)).save(any(Connection.class));
+    }
+
+    @Test
+    public void createConnection_userEmailsMatch_connectionNotSaved() {
+        //arrange
+        User user1 = new User();
+        user1.setEmail("user1@test.com");
+        String user2Email = "user1@test.com";
+
+        //act
+        connectionServiceImpl.createConnection(user1, user2Email);
+
+        //assert
+        verify(connectionRepositoryMock, times(0)).save(any(Connection.class));
     }
 }

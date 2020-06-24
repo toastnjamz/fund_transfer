@@ -39,11 +39,13 @@ public class ConnectionServiceImpl implements ConnectionService {
 
     @Override
     public void createConnection(User owningUser, String connectedUserEmail) {
-        List<Connection> connectionList = connectionRepository.findConnectionListByUser(owningUser);
-        User connectedUser = userService.findUserByEmail(connectedUserEmail);
-        if (connectionList.isEmpty() || connectionList.stream().noneMatch(connection -> userService.findUserById(connection.getConnectedUserId()).equals(connectedUser))) {
-            Connection newConnection = new Connection(owningUser, connectedUser.getId());
-            connectionRepository.save(newConnection);
+        if ((!(owningUser.getEmail().equals(connectedUserEmail))) && (userService.findUserByEmail(connectedUserEmail) != null)) {
+            List<Connection> connectionList = connectionRepository.findConnectionListByUser(owningUser);
+            User connectedUser = userService.findUserByEmail(connectedUserEmail);
+            if (connectionList.isEmpty() || connectionList.stream().noneMatch(connection -> userService.findUserById(connection.getConnectedUserId()).equals(connectedUser))) {
+                Connection newConnection = new Connection(owningUser, connectedUser.getId());
+                connectionRepository.save(newConnection);
+            }
         }
     }
 }

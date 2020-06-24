@@ -22,16 +22,19 @@
         <div id="pageLocationTitle">Home / <span style="color:grey">Profile</span></div>
     </div>
     <div class="topContainer">
+        <div class = linkedBankAccount>
+<!--            <h3>Linked Bank Account: <span th:text="*{user.displayName != null}? *{user.displayName} : '(You haven't linked a bank account yet.)'">test</span></h3>-->
+        </div>
         <div class="welcomeText">
-            <h2>User Name: <span th:text="${#authentication.getPrincipal().getDisplayName()}"/></h2>
-            <h3>Email: <span th:text="${#authentication.getPrincipal().getUsername()}"/></h3>
+            <h2>User Name: <span th:text="${user.displayName}"></span></h2>
+            <h3>Email: <span th:text="${user.email}"></span></h3>
         </div>
         <div class="containerRow" id="containerTitle">
             <div class="sectionTitle">Manage My Money</div>
         </div>
         <form name="form" th:action="@{/user/transferToBank}" method="post">
             <div class="containerRow" id="containerSubRow">
-                <h3>Pay My Buddy Balance: <span th:text="${'$' + #authentication.getPrincipal().getAccountBalance()}"></span></h3>
+                <h3>Pay My Buddy Balance: <span th:text="${user.account.balance}"></span></h3>
                 <div>
                     <button class=addConnectionButton name="addConnectionButton" type="submit"
                             value="Transfer to Bank">Transfer to Bank</button>

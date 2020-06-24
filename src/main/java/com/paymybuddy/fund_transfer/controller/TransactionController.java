@@ -76,7 +76,6 @@ public class TransactionController {
         return modelAndView;
     }
 
-    //TODO: decide if i want to keep extracted method
     private void createTransactionDTOToFromBank(List<TransactionDTO> transactionDTOList, Transaction transaction) {
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setToUserEmail("");
@@ -84,42 +83,6 @@ public class TransactionController {
         transactionDTO.setDescription(transaction.getDescription());
         transactionDTOList.add(transactionDTO);
     }
-
-//    //TODO: fix? displaying error works, but dropdown list doesn't populate transactionDTO.toUserEmail field
-//    @PostMapping("/user/transfer")
-//    public ModelAndView postTransfer(@ModelAttribute("transactionDTO") TransactionDTO transactionDTO, BindingResult result) {
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        User userFromAuth = userService.getUserFromAuth(auth);
-//
-//        if (userFromAuth != null) {
-//
-//            List<User> connectedUsersList = connectionService.findConnectedUsersByOwningUser(userFromAuth);
-//            modelAndView.setViewName("/transfer");
-//            modelAndView.addObject("connectedUsersList", connectedUsersList);
-//
-//            if (!transactionService.isInCurrencyFormat(transactionDTO.getAmount())) {
-//                result.rejectValue("amount", "error-transfer","Enter a valid amount.");
-//            }
-//
-//            if (!result.hasErrors()) {
-//                transactionService.createTransactionByTransferToFriend(userFromAuth, transactionDTO.getToUserEmail(),
-//                        transactionDTO.getAmount(), transactionDTO.getDescription());
-//                RedirectView redirectView = new RedirectView();
-//                redirectView.setUrl("/user/transfer");
-//                modelAndView.setView(redirectView);
-//                modelAndView.addObject("connectedUsersList", connectedUsersList);
-//            }
-//            else {
-//                modelAndView.setViewName("/transfer");
-//            }
-//        }
-//        else {
-//            modelAndView.setViewName("redirect:/login");
-//        }
-//        return modelAndView;
-//    }
 
     //Method logs request and response for future use with invoicing system
     @PostMapping("/user/transfer")
@@ -138,12 +101,11 @@ public class TransactionController {
         }
         else {
             log.error("HTTP Post request rejected for postTransfer, ERROR");
-            modelAndView.setViewName("redirect:/login");
+            modelAndView.setViewName("403");
         }
         return modelAndView;
     }
 
-    //TODO: test
     @GetMapping("/admin/transactions")
     public ModelAndView getTransactionsLog() {
         ModelAndView modelAndView = new ModelAndView();
@@ -167,12 +129,11 @@ public class TransactionController {
             modelAndView.addObject("transactionOrderDTO", new TransactionOrderDTO());
         }
         else {
-            modelAndView.setViewName("403");
+            modelAndView.setViewName("redirect:/403");
         }
         return modelAndView;
     }
 
-    //TODO: fix balance not updating on profile page
     @GetMapping("/user/profile")
     public ModelAndView profile() {
         ModelAndView modelAndView = new ModelAndView();
@@ -180,6 +141,8 @@ public class TransactionController {
         User user = userService.getUserFromAuth(auth);
         if (user != null) {
             modelAndView.setViewName("profile");
+            modelAndView.addObject("user", user);
+            modelAndView.addObject("bankAccount", user.getAccount().getBankAccount());
         }
         else {
             modelAndView.setViewName("redirect:/login");
@@ -211,10 +174,9 @@ public class TransactionController {
         User userFromAuth = userService.getUserFromAuth(auth);
         if (userFromAuth != null) {
             transactionService.createTransactionByAddMoney(userFromAuth, amount);
-//            RedirectView redirectView = new RedirectView();
-//            redirectView.setUrl("/user/profile");
-//            modelAndView.setView(redirectView);
-            modelAndView.setViewName("profile");
+            RedirectView redirectView = new RedirectView();
+            redirectView.setUrl("/user/profile");
+            modelAndView.setView(redirectView);
         }
         else {
             modelAndView.setViewName("redirect:/login");
