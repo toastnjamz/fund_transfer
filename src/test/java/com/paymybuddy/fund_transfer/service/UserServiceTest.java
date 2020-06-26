@@ -1,6 +1,7 @@
 package com.paymybuddy.fund_transfer.service;
 
 import com.paymybuddy.fund_transfer.controller.SpringSecurityAuthTestConfig;
+import com.paymybuddy.fund_transfer.domain.BankAccount;
 import com.paymybuddy.fund_transfer.domain.MyUserDetails;
 import com.paymybuddy.fund_transfer.domain.RoleType;
 import com.paymybuddy.fund_transfer.domain.User;
@@ -149,5 +150,6 @@ public class UserServiceTest {
 
         //assert
         assertEquals(user.getEmail(), result.getEmail());
+        verify(userRepositoryMock, times(1)).save(any(User.class));
     }
 }

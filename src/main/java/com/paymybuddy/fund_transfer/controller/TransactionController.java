@@ -117,7 +117,7 @@ public class TransactionController {
             for (Transaction transaction : transactionList) {
                 TransactionOrderDTO transactionOrderDTO = new TransactionOrderDTO();
                 transactionOrderDTO.setFromUserEmail(transaction.getAccount().getUser().getEmail());
-                transactionOrderDTO.setFromUserEmail(accountService.findAccountById(transaction.getToAccountId()).getUser().getEmail());
+                transactionOrderDTO.setToUserEmail(accountService.findAccountById(transaction.getToAccountId()).getUser().getEmail());
                 transactionOrderDTO.setDescription(transaction.getDescription());
                 transactionOrderDTO.setAmount(transaction.getAmount().toString());
                 transactionOrderDTO.setFee(transaction.getTransactionFee().toString());
@@ -129,7 +129,7 @@ public class TransactionController {
             modelAndView.addObject("transactionOrderDTO", new TransactionOrderDTO());
         }
         else {
-            modelAndView.setViewName("redirect:/403");
+            modelAndView.setViewName("403");
         }
         return modelAndView;
     }
@@ -142,12 +142,19 @@ public class TransactionController {
         if (user != null) {
             modelAndView.setViewName("profile");
             modelAndView.addObject("user", user);
-            modelAndView.addObject("bankAccount", user.getAccount().getBankAccount());
+            modelAndView.addObject("bankAccount", user.getAccount().getBankAccount());;
         }
         else {
             modelAndView.setViewName("redirect:/login");
         }
         return modelAndView;
+    }
+
+    public Boolean isBankAccountLinked() {
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getUserFromAuth(auth);
+        return (user.getAccount().getBankAccount() != null);
     }
 
     @PostMapping("/user/addBankAccount")

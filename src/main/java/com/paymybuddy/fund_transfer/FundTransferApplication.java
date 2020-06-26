@@ -13,6 +13,6 @@ public class FundTransferApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FundTransferApplication.class, args);
 //		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//		System.out.println(bCryptPasswordEncoder.encode("1234"));
+//		System.out.println(bCryptPasswordEncoder.encode("password"));
 	}
 }

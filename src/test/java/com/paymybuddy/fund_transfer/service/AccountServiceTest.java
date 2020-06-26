@@ -13,6 +13,9 @@ import org.mockito.Mock;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.hamcrest.Matchers;
@@ -105,6 +108,7 @@ public class AccountServiceTest {
 
         //assert
         assertEquals(1, result.getId());
+        verify(accountRepositoryMock, times(1)).save(any(Account.class));
     }
 
     @Test
@@ -127,6 +131,7 @@ public class AccountServiceTest {
 
         //assert
         assertThat(new BigDecimal(10.0), Matchers.comparesEqualTo(account.getBalance()));
+        verify(accountRepositoryMock, times(1)).save(any(Account.class));
     }
 
     @Test

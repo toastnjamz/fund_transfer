@@ -90,5 +90,6 @@ public class BankAccountServiceTest {
 
         //assert
         assertNull(result);
+        verify(bankAccountRepositoryMock, times(0)).save(any(BankAccount.class));
     }
 }
