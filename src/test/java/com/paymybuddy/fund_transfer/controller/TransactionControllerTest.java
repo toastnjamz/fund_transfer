@@ -209,9 +209,9 @@ public class TransactionControllerTest {
     }
 
     @Test
-    public void getTransactionsLog_adminIsNotLoggedIn_statusIsRedirection403() throws Exception {
+    public void getTransactionsLog_adminIsNotLoggedIn_statusIs403Successful() throws Exception {
         mockMvc.perform(get("/admin/transactions"))
-                .andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/403"));
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
